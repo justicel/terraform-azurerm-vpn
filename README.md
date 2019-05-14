@@ -71,6 +71,11 @@ module "vpn-gw" {
 | vpn\_gw\_id | Azure VPN GW id. |
 | vpn\_gw\_name | Azure VPN GW name. |
 | vpn\_gw\_subnet\_id | Dedicated subnet id for the GW. |
+| vpn\_local\_gw\_id | Azure vnet local GW id. |
+| vpn\_local\_gw\_name | Azure vnet local GW name. |
+| vpn\_public\_ip | Azure VPN GW public IP. |
+| vpn\_public\_ip\_fqdn | Azure VPN GW public FQDN. |
+| vpn\_public\_ip\_name | Azure VPN GW public IP resource name. |
 
 ## Related documentation
 
