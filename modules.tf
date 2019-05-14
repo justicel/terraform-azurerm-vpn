@@ -1,8 +1,8 @@
 module "azure-network-subnet-gateway" {
-  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/subnet.git?ref=AZ-5-az-subnet"
+  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/subnet.git?ref=v1.0.0"
 
   environment    = "${var.environment}"
-  location-short = "${var.location_short}"
+  location_short = "${var.location_short}"
   client_name    = "${var.client_name}"
   stack          = "${var.stack}"
 
