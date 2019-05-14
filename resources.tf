@@ -1,5 +1,5 @@
 resource "azurerm_public_ip" "virtual_gateway_pubip" {
-  name                = "${coalesce(var.custom_name, local.default_name)}-pubip"
+  name                = "${coalesce(var.custom_name, local.default_basename)}-pubip"
   location            = "${var.location}"
   resource_group_name = "${var.resource_group_name}"
 
@@ -10,7 +10,7 @@ resource "azurerm_public_ip" "virtual_gateway_pubip" {
 }
 
 resource "azurerm_virtual_network_gateway" "public_virtual_network_gateway" {
-  name                = "pub-${coalesce(var.custom_name, local.default_name)}-vng"
+  name                = "pub-${coalesce(var.custom_name, local.default_basename)}-vng"
   location            = "${var.location}"
   resource_group_name = "${var.resource_group_name}"
 
@@ -31,7 +31,7 @@ resource "azurerm_virtual_network_gateway" "public_virtual_network_gateway" {
 }
 
 resource "azurerm_local_network_gateway" "local_network_gateway" {
-  name                = "local-${coalesce(var.custom_name, local.default_name)}-vng"
+  name                = "local-${coalesce(var.custom_name, local.default_basename)}-vng"
   location            = "${var.location}"
   resource_group_name = "${var.resource_group_name}"
 
