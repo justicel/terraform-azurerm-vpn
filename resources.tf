@@ -1,5 +1,5 @@
 resource "azurerm_public_ip" "virtual_gateway_pubip" {
-  name                = "${coalesce(var.custom_name, local.default_basename)}-pubip"
+  name                = "pubgateway-${coalesce(var.custom_name, local.default_basename)}-pubip"
   location            = "${var.location}"
   resource_group_name = "${var.resource_group_name}"
 

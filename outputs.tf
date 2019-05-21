@@ -23,11 +23,6 @@ output "vpn_public_ip" {
   value       = "${azurerm_public_ip.virtual_gateway_pubip.ip_address}"
 }
 
-output "vpn_public_ip_fqdn" {
-  description = "Azure VPN GW public FQDN."
-  value       = "${azurerm_public_ip.virtual_gateway_pubip.fqdn}"
-}
-
 output "vpn_local_gw_name" {
   description = "Azure vnet local GW name."
   value       = "${azurerm_local_network_gateway.local_network_gateway.name}"

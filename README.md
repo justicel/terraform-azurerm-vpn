@@ -21,19 +21,42 @@ module "rg" {
   stack        = "${var.stack}"
 }
 
+module "azure-network-vnet" {
+  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/vnet.git?ref=vX.X.X"
+  
+  environment      = "${var.environment}"
+  location         = "${module.azure-region.location}"
+  location_short   = "${module.azure-region.location-short}"
+  client_name      = "${var.client_name}"
+  stack            = "${var.stack}"
+  custom_vnet_name = "${var.custom_vnet_name}"
+
+  resource_group_name = "${module.rg.resource_group_name}"
+  vnet_cidr           = ["10.10.1.0/16"]
+}
 
 module "vpn-gw" {
-    source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/features/vpn.git?ref=vX.X.X"
+  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/features/vpn.git?ref=vX.X.X"
 
-    client_name         = "${var.client_name}"
-    environment         = "${var.environment}"
-    stack               = "${var.stack}"
-    resource_group_name = "${module.rg.resource_group_name}"
-    location            = "${module.az-region.location}"
-    location_short      = "${module.az-region.location_short}"
+  client_name         = "${var.client_name}"
+  environment         = "${var.environment}"
+  stack               = "${var.stack}"
+  resource_group_name = "${module.rg.resource_group_name}"
+  location            = "${module.az-region.location}"
+  location_short      = "${module.az-region.location_short}"
 
-    # You can set either a prefix for generated name or a custom one for the resource naming
-    custom_name = "${var.security_group_name}"
+  # You can set either a prefix for generated name or a custom one for the resource naming
+  custom_name = "${var.custom_vpn_gw_name}"
+
+  virtual_network_name = "${module.azure-network-vnet.virtual_network_name}"
+  subnet_gateway_cidr  = "10.10.1.0/25"
+
+  on_prem_gateway_subnets_cidrs = "${local.on_prem_gateway_subnets}"
+  on_prem_gateway_ip            = "${local.on_prem_gateway_ip}"
+
+  vpn_ipsec_shared_key = "${var.shared_key}"
+
+  vpn_gw_connection_name = "azure_to_${var.client_name}_on-prem"
 }
 ```
 
@@ -75,7 +98,6 @@ module "vpn-gw" {
 | vpn\_local\_gw\_id | Azure vnet local GW id. |
 | vpn\_local\_gw\_name | Azure vnet local GW name. |
 | vpn\_public\_ip | Azure VPN GW public IP. |
-| vpn\_public\_ip\_fqdn | Azure VPN GW public FQDN. |
 | vpn\_public\_ip\_name | Azure VPN GW public IP resource name. |
 
 ## Related documentation
