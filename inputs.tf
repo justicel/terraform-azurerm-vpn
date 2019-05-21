@@ -106,3 +106,8 @@ variable "vpn_gw_enable_bgp" {
   description = "If true, BGP (Border Gateway Protocol) will be enabled for this Virtual Network Gateway. Defaults to false."
   default     = "false"
 }
+
+variable "vpn_gw_connection_name" {
+  description = "Custom name for VPN Gateway connection resource."
+  default     = ""
+}

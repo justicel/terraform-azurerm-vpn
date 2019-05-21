@@ -55,6 +55,7 @@ module "vpn-gw" {
 | subnet\_gateway\_cidr | CIDR range for the dedicated Gateway subnet. Must be a range available in the Vnet. | string | n/a | yes |
 | virtual\_network\_name | Virtual Network Name where the dedicated Subnet and GW will be created. | string | n/a | yes |
 | vpn\_gw\_active\_active | If true, an active-active Virtual Network Gateway will be created. An active-active gateway requires a HighPerformance or an UltraPerformance sku. If false, an active-standby gateway will be created. Defaults to false. | string | `"false"` | no |
+| vpn\_gw\_connection\_name | Custom name for VPN Gateway connection resource. | string | `""` | no |
 | vpn\_gw\_enable\_bgp | If true, BGP (Border Gateway Protocol) will be enabled for this Virtual Network Gateway. Defaults to false. | string | `"false"` | no |
 | vpn\_gw\_public\_ip\_allocation\_method | Defines the allocation method for this IP address. Possible values are `Static` or `Dynamic`. | string | `"Dynamic"` | no |
 | vpn\_gw\_public\_ip\_sku | The SKU of the Public IP. Accepted values are `Basic` and `Standard`. | string | `"Basic"` | no |
