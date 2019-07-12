@@ -47,6 +47,12 @@ variable "virtual_network_name" {
   type        = "string"
 }
 
+variable "network_resource_group_name" {
+  description = "Vnet and subnet Resource group name. To use only if you need to have a dedicated Resource Group for all VPN GW resources. (set via `resource_group_name` var.)"
+  type        = "string"
+  default     = ""
+}
+
 variable "subnet_gateway_cidr" {
   description = "CIDR range for the dedicated Gateway subnet. Must be a range available in the Vnet."
   type        = "string"

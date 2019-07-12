@@ -23,7 +23,7 @@ module "rg" {
 
 module "azure-network-vnet" {
   source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/vnet.git?ref=vX.X.X"
-  
+
   environment      = "${var.environment}"
   location         = "${module.azure-region.location}"
   location_short   = "${module.azure-region.location-short}"
@@ -60,6 +60,74 @@ module "vpn-gw" {
 }
 ```
 
+Usage with a dedicated RG for VNet and Subnet, and another one for VPN GW resources:
+
+```hcl
+module "az-region" {
+  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/regions.git?ref=vX.X.X"
+
+  azure_region = "${var.azure_region}"
+}
+
+module "rg-vnet" {
+  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/rg.git?ref=vX.X.X"
+
+  location     = "${module.az-region.location}"
+  client_name  = "${var.client_name}"
+  environment  = "${var.environment}"
+  stack        = "${var.stack}"
+}
+
+module "rg-vpn" {
+  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/rg.git?ref=vX.X.X"
+
+  location     = "${module.az-region.location}"
+  client_name  = "${var.client_name}"
+  environment  = "${var.environment}"
+  stack        = "${var.stack}"
+}
+
+module "azure-network-vnet" {
+  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/vnet.git?ref=vX.X.X"
+
+  environment      = "${var.environment}"
+  location         = "${module.azure-region.location}"
+  location_short   = "${module.azure-region.location-short}"
+  client_name      = "${var.client_name}"
+  stack            = "${var.stack}"
+  custom_vnet_name = "${var.custom_vnet_name}"
+
+  resource_group_name = "${module.rg-vnet.resource_group_name}"
+  vnet_cidr           = ["10.10.1.0/16"]
+}
+
+module "vpn-gw" {
+  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/features/vpn.git?ref=vX.X.X"
+
+  client_name         = "${var.client_name}"
+  environment         = "${var.environment}"
+  stack               = "${var.stack}"
+  resource_group_name = "${module.rg-vpn.resource_group_name}"
+  location            = "${module.az-region.location}"
+  location_short      = "${module.az-region.location_short}"
+
+  # You can set either a prefix for generated name or a custom one for the resource naming
+  custom_name = "${var.custom_vpn_gw_name}"
+
+  network_resource_group_name = "${module.rg-vnet.resource_group_name}"
+
+  virtual_network_name = "${module.azure-network-vnet.virtual_network_name}"
+  subnet_gateway_cidr  = "10.10.1.0/25"
+
+  on_prem_gateway_subnets_cidrs = "${local.on_prem_gateway_subnets}"
+  on_prem_gateway_ip            = "${local.on_prem_gateway_ip}"
+
+  vpn_ipsec_shared_key = "${var.shared_key}"
+
+  vpn_gw_connection_name = "azure_to_${var.client_name}_on-prem"
+}
+```
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -71,6 +139,8 @@ module "vpn-gw" {
 | location | Azure region to use | string | n/a | yes |
 | location\_short | Short string for Azure location | string | n/a | yes |
 | name\_prefix | Optional prefix for VPN Gateway name | string | `""` | no |
+| network\_resource\_group\_name | Vnet and subnet Resource group name. To use only if you need to have a dedicated Resource Group for all VPN GW resources. (set via `resource_group_name` var.) | 
+string | `""` | no |
 | on\_prem\_gateway\_ip | On-premise Gateway endpoint IP to connect Azure with. | string | n/a | yes |
 | on\_prem\_gateway\_subnets\_cidrs | On-premise subnets list to route from the Hub. (list of strings) | list | n/a | yes |
 | resource\_group\_name | Name of the resource group | string | n/a | yes |

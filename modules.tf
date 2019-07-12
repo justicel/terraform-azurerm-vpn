@@ -6,7 +6,7 @@ module "azure-network-subnet-gateway" {
   client_name    = "${var.client_name}"
   stack          = "${var.stack}"
 
-  resource_group_name  = "${var.resource_group_name}"
+  resource_group_name  = "${coalesce(var.network_resource_group_name, var.resource_group_name)}"
   virtual_network_name = "${var.virtual_network_name}"
 
   subnet_cidr_list = ["${var.subnet_gateway_cidr}"]
