@@ -42,7 +42,7 @@ resource "azurerm_local_network_gateway" "local_network_gateway" {
 }
 
 resource "azurerm_virtual_network_gateway_connection" "azure-hub_to_onprem" {
-  name                = "${coalesce(var.vpn_gw_connection_name, "azure_hub_to_on-prem_resources")}"
+  name                = "${var.vpn_gw_connection_name}"
   location            = "${var.location}"
   resource_group_name = "${var.resource_group_name}"
 

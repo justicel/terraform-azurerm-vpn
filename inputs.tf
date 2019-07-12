@@ -109,5 +109,5 @@ variable "vpn_gw_enable_bgp" {
 
 variable "vpn_gw_connection_name" {
   description = "Custom name for VPN Gateway connection resource."
-  default     = ""
+  default     = "azure_hub_to_on-prem_resources"
 }
