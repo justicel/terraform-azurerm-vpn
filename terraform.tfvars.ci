@@ -1,0 +1,12 @@
+location="fr-central"
+location_short="frc"
+client_name="test"
+environment="test"
+stack="ci"
+resource_group_name="ci"
+
+virtual_network_name="test-stack-hub-vnet"
+subnet_gateway_cidr="10.0.10.1/25"
+on_prem_gateway_ip="172.40.0.100"
+on_prem_gateway_subnets_cidrs=["172.40.0.0/24","172.40.1.0/24"]
+vpn_ipsec_shared_key="4-v3ry-53cr37-1p53c-5h4r3d-k3y"
