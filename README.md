@@ -139,8 +139,7 @@ module "vpn-gw" {
 | location | Azure region to use | string | n/a | yes |
 | location\_short | Short string for Azure location | string | n/a | yes |
 | name\_prefix | Optional prefix for VPN Gateway name | string | `""` | no |
-| network\_resource\_group\_name | Vnet and subnet Resource group name. To use only if you need to have a dedicated Resource Group for all VPN GW resources. (set via `resource_group_name` var.) | 
-string | `""` | no |
+| network\_resource\_group\_name | Vnet and subnet Resource group name. To use only if you need to have a dedicated Resource Group for all VPN GW resources. (set via `resource_group_name` var.) | string | `""` | no |
 | on\_prem\_gateway\_ip | On-premise Gateway endpoint IP to connect Azure with. | string | n/a | yes |
 | on\_prem\_gateway\_subnets\_cidrs | On-premise subnets list to route from the Hub. (list of strings) | list | n/a | yes |
 | resource\_group\_name | Name of the resource group | string | n/a | yes |
@@ -151,10 +150,10 @@ string | `""` | no |
 | vpn\_gw\_connection\_name | Custom name for VPN Gateway connection resource. | string | `"azure_hub_to_on-prem_resources"` | no |
 | vpn\_gw\_enable\_bgp | If true, BGP (Border Gateway Protocol) will be enabled for this Virtual Network Gateway. Defaults to false. | string | `"false"` | no |
 | vpn\_gw\_public\_ip\_allocation\_method | Defines the allocation method for this IP address. Possible values are `Static` or `Dynamic`. | string | `"Dynamic"` | no |
+| vpn\_gw\_public\_ip\_custom\_name | VPN GW resource custom name | string | `""` | no |
 | vpn\_gw\_public\_ip\_sku | The SKU of the Public IP. Accepted values are `Basic` and `Standard`. | string | `"Basic"` | no |
 | vpn\_gw\_routing\_type | The routing type of the Virtual Network Gateway. Valid options are `RouteBased` or `PolicyBased`. Defaults to RouteBased. | string | `"RouteBased"` | no |
-| vpn\_gw\_sku | Configuration of the size and capacity of the virtual network gateway. Valid options are Basic, Standard, HighPerformance, UltraPerformance, ErGw1AZ, ErGw2AZ, ErGw3AZ, VpnGw1, VpnGw2, VpnGw3, VpnGw1AZ, VpnGw2AZ, and VpnGw3AZ and depend on the type and vpn_type arguments. A PolicyBased gateway only supports the Basic sku. Further, the UltraPerformance sku is only supported 
-by an ExpressRoute gateway. | string | `"VpnGw1"` | no |
+| vpn\_gw\_sku | Configuration of the size and capacity of the virtual network gateway. Valid options are Basic, Standard, HighPerformance, UltraPerformance, ErGw1AZ, ErGw2AZ, ErGw3AZ, VpnGw1, VpnGw2, VpnGw3, VpnGw1AZ, VpnGw2AZ, and VpnGw3AZ and depend on the type and vpn_type arguments. A PolicyBased gateway only supports the Basic sku. Further, the UltraPerformance sku is only supported by an ExpressRoute gateway. | string | `"VpnGw1"` | no |
 | vpn\_gw\_type | The type of the Virtual Network Gateway. Valid options are `Vpn` or `ExpressRoute`. Changing the type forces a new resource to be created | string | `"Vpn"` | no |
 | vpn\_ipsec\_shared\_key | The Shared key between both On-premise Gateway and Azure GW for VPN IPsec connection. | string | n/a | yes |
 

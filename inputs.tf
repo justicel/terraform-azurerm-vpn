@@ -74,6 +74,12 @@ variable "vpn_ipsec_shared_key" {
 }
 
 # VPN GW specific options
+variable "vpn_gw_public_ip_custom_name" {
+  description = "VPN GW resource custom name"
+  type        = "string"
+  default     = ""
+}
+
 variable "vpn_gw_public_ip_allocation_method" {
   description = "Defines the allocation method for this IP address. Possible values are `Static` or `Dynamic`."
   type        = "string"
