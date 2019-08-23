@@ -74,6 +74,23 @@ variable "vpn_ipsec_shared_key" {
 }
 
 # VPN GW specific options
+variable "vpn_gw_ipconfig_custom_name" {
+  description = "VPN GW IP Config resource custom name"
+  type        = "string"
+  default     = ""
+}
+
+variable "vpn_gw_public_ip_custom_name" {
+  description = "VPN GW Public IP resource custom name"
+  type        = "string"
+  default     = ""
+}
+
+variable "vpn_gw_connection_name" {
+  description = "Custom name for VPN Gateway connection resource."
+  default     = "azure_hub_to_on-prem_resources"
+}
+
 variable "vpn_gw_public_ip_allocation_method" {
   description = "Defines the allocation method for this IP address. Possible values are `Static` or `Dynamic`."
   type        = "string"
@@ -111,9 +128,4 @@ variable "vpn_gw_sku" {
 variable "vpn_gw_enable_bgp" {
   description = "If true, BGP (Border Gateway Protocol) will be enabled for this Virtual Network Gateway. Defaults to false."
   default     = "false"
-}
-
-variable "vpn_gw_connection_name" {
-  description = "Custom name for VPN Gateway connection resource."
-  default     = "azure_hub_to_on-prem_resources"
 }

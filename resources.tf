@@ -1,5 +1,5 @@
 resource "azurerm_public_ip" "virtual_gateway_pubip" {
-  name                = "pubgateway-${coalesce(var.custom_name, local.default_basename)}-pubip"
+  name                = "${coalesce(var.vpn_gw_public_ip_custom_name, "pubgateway-${coalesce(var.custom_name, local.default_basename)}-pubip")}"
   location            = "${var.location}"
   resource_group_name = "${var.resource_group_name}"
 
@@ -22,7 +22,7 @@ resource "azurerm_virtual_network_gateway" "public_virtual_network_gateway" {
   sku           = "${var.vpn_gw_sku}"
 
   ip_configuration {
-    name                 = "vnetGatewayIPConfig"
+    name                 = "${coalesce(var.vpn_gw_ipconfig_custom_name, "vnetGatewayIPConfig")}"
     public_ip_address_id = "${azurerm_public_ip.virtual_gateway_pubip.id}"
     subnet_id            = "${module.azure-network-subnet-gateway.subnet_ids[0]}"
   }
