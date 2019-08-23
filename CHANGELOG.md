@@ -1,3 +1,8 @@
+# v0.1.1 - 2019-08-23
+
+Updated
+  * AZ-91: Allow custom name for GW IP tf resource
+
 # v0.1.0 - 2019-07-19 
 
 Added
