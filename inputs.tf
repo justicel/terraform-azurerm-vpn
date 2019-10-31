@@ -21,12 +21,12 @@ variable "stack" {
 
 variable "client_name" {
   description = "Client name/account used in naming"
-  type        = "string"
+  type        = string
 }
 
 variable "name_prefix" {
   description = "Optional prefix for VPN Gateway name"
-  type        = "string"
+  type        = string
   default     = ""
 }
 
@@ -37,52 +37,52 @@ variable "custom_name" {
 
 variable "extra_tags" {
   description = "Additional tags to associate with your VPN Gateway."
-  type        = "map"
+  type        = map(string)
   default     = {}
 }
 
 # VPN GW mandatory parameters
 variable "virtual_network_name" {
   description = "Virtual Network Name where the dedicated Subnet and GW will be created."
-  type        = "string"
+  type        = string
 }
 
 variable "network_resource_group_name" {
   description = "Vnet and subnet Resource group name. To use only if you need to have a dedicated Resource Group for all VPN GW resources. (set via `resource_group_name` var.)"
-  type        = "string"
+  type        = string
   default     = ""
 }
 
 variable "subnet_gateway_cidr" {
   description = "CIDR range for the dedicated Gateway subnet. Must be a range available in the Vnet."
-  type        = "string"
+  type        = string
 }
 
 variable "on_prem_gateway_ip" {
   description = "On-premise Gateway endpoint IP to connect Azure with."
-  type        = "string"
+  type        = string
 }
 
 variable "on_prem_gateway_subnets_cidrs" {
   description = "On-premise subnets list to route from the Hub. (list of strings)"
-  type        = "list"
+  type        = list(string)
 }
 
 variable "vpn_ipsec_shared_key" {
   description = "The Shared key between both On-premise Gateway and Azure GW for VPN IPsec connection."
-  type        = "string"
+  type        = string
 }
 
 # VPN GW specific options
 variable "vpn_gw_ipconfig_custom_name" {
   description = "VPN GW IP Config resource custom name"
-  type        = "string"
+  type        = string
   default     = ""
 }
 
 variable "vpn_gw_public_ip_custom_name" {
   description = "VPN GW Public IP resource custom name"
-  type        = "string"
+  type        = string
   default     = ""
 }
 
@@ -93,25 +93,25 @@ variable "vpn_gw_connection_name" {
 
 variable "vpn_gw_public_ip_allocation_method" {
   description = "Defines the allocation method for this IP address. Possible values are `Static` or `Dynamic`."
-  type        = "string"
+  type        = string
   default     = "Dynamic"
 }
 
 variable "vpn_gw_public_ip_sku" {
   description = "The SKU of the Public IP. Accepted values are `Basic` and `Standard`."
-  type        = "string"
+  type        = string
   default     = "Basic"
 }
 
 variable "vpn_gw_type" {
   description = "The type of the Virtual Network Gateway. Valid options are `Vpn` or `ExpressRoute`. Changing the type forces a new resource to be created"
-  type        = "string"
+  type        = string
   default     = "Vpn"
 }
 
 variable "vpn_gw_routing_type" {
   description = "The routing type of the Virtual Network Gateway. Valid options are `RouteBased` or `PolicyBased`. Defaults to RouteBased."
-  type        = "string"
+  type        = string
   default     = "RouteBased"
 }
 
@@ -129,3 +129,4 @@ variable "vpn_gw_enable_bgp" {
   description = "If true, BGP (Border Gateway Protocol) will be enabled for this Virtual Network Gateway. Defaults to false."
   default     = "false"
 }
+
