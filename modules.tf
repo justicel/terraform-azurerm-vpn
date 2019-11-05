@@ -1,5 +1,6 @@
 module "azure-network-subnet-gateway" {
-  source = "git::ssh://git@git.fr.clara.net/claranet/cloudnative/projects/cloud/azure/terraform/modules/subnet.git?ref=v2.0.0"
+  source  = "claranet/subnet/azurerm"
+  version = "2.0.1"
 
   environment    = var.environment
   location_short = var.location_short
