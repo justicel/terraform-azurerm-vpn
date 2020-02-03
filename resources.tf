@@ -15,7 +15,8 @@ resource "azurerm_public_ip" "virtual_gateway_pubip" {
 resource "azurerm_virtual_network_gateway" "public_virtual_network_gateway" {
   name                = "pub-${coalesce(var.custom_name, local.default_basename)}-vng"
   location            = var.location
-  resource_group_name = var.resource_group_name
+  // Must be in the same rg as VNET
+  resource_group_name  = coalesce(var.network_resource_group_name, var.resource_group_name)
 
   type     = var.vpn_gw_type
   vpn_type = var.vpn_gw_routing_type
