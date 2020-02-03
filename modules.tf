@@ -1,6 +1,6 @@
 module "azure-network-subnet-gateway" {
   source  = "claranet/subnet/azurerm"
-  version = "2.0.1"
+  version = "2.0.3"
 
   environment    = var.environment
   location_short = var.location_short
