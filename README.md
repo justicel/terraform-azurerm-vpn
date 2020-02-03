@@ -6,7 +6,7 @@ with its own dedicated Subnet, public IP, and the connection resource.
 
 ## Requirements and limitations
 
- * AzureRM terraform provider >= 1.36
+ * [AzureRM Terraform provider](https://www.terraform.io/docs/providers/azurerm/) >= 1.36
  
 ## Terraform version compatibility
 
@@ -199,3 +199,4 @@ module "vpn-gw" {
 
  - Terraform VNET Gateway documentation [terraform.io/docs/providers/azurerm/r/virtual_network_gateway.html](https://www.terraform.io/docs/providers/azurerm/r/virtual_network_gateway.html)
  - Terraform VNET Gateway connection documentation [terraform.io/docs/providers/azurerm/r/virtual_network_gateway_connection.html](https://www.terraform.io/docs/providers/azurerm/r/virtual_network_gateway_connection.html)
+ - Microsoft VPN Gateway documentation [docs.microsoft.com/fr-fr/azure/vpn-gateway/vpn-gateway-about-vpngateways](https://docs.microsoft.com/fr-fr/azure/vpn-gateway/vpn-gateway-about-vpngateways)
