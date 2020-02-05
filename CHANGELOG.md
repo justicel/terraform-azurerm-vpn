@@ -6,6 +6,7 @@ Breaking
 Added
   * AZ-118: Add NOTICE and LICENSE file + update README with badges
   * AZ-119: Revamp to match Terraform/Hashicorp best practices
+  * AZ-175: Public release + Fix bug when using dedicated RG
     
 # v0.1.1 - 2019-08-23
 

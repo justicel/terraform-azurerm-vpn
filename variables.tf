@@ -117,7 +117,8 @@ variable "vpn_gw_routing_type" {
 
 variable "vpn_gw_active_active" {
   description = " If true, an active-active Virtual Network Gateway will be created. An active-active gateway requires a HighPerformance or an UltraPerformance sku. If false, an active-standby gateway will be created. Defaults to false."
-  default     = "false"
+  default     = false
+  type        = bool
 }
 
 variable "vpn_gw_sku" {
@@ -127,6 +128,7 @@ variable "vpn_gw_sku" {
 
 variable "vpn_gw_enable_bgp" {
   description = "If true, BGP (Border Gateway Protocol) will be enabled for this Virtual Network Gateway. Defaults to false."
-  default     = "false"
+  default     = false
+  type        = bool
 }
 
