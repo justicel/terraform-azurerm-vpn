@@ -1,4 +1,4 @@
-# v2.0.0 - Unreleased
+# v2.0.0 - 2020-02-05
 
 Breaking
   * AZ-94: Upgrade module to terraform v0.12
