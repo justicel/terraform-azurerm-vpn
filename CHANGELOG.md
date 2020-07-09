@@ -1,4 +1,4 @@
-# v3.0.0 - unreleased
+# v3.0.0 - 2020-07-09
 
 Breaking
   * AZ-198: Upgrade module to Azurerm 2.x
