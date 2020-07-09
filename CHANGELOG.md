@@ -1,3 +1,11 @@
+# v3.0.0 - unreleased
+
+Breaking
+  * AZ-198: Upgrade module to Azurerm 2.x
+  
+Changed
+  * AZ-209: Update CI with Gitlab template
+ 
 # v2.0.0 - 2020-02-05
 
 Breaking
