@@ -4,13 +4,14 @@
 This feature creates an [Azure VPN Gateway](https://docs.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways) 
 with its own dedicated Subnet, public IP, and the connection resource.
 
-## Terraform version compatibility
+## Version compatibility
 
-| Module version | Terraform version | AzureRM Version |
-|----------------|-------------------|-----------------|
-| >= 3.x.x       | 0.12.x            | ~> 2.0.0        |
-| >= 2.x.x       | 0.12.x            | < 2.0.0         |
-| < 2.x.x        | 0.11.x            | < 2.0.0         |
+| Module version | Terraform version | AzureRM version |
+|----------------|-------------------| --------------- |
+| >= 4.x.x       | 0.13.x            | >= 2.0          |
+| >= 3.x.x       | 0.12.x            | >= 2.0          |
+| >= 2.x.x       | 0.12.x            | < 2.0           |
+| <  2.x.x       | 0.11.x            | < 2.0           |
 
 ## Usage  
 
