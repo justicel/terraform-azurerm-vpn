@@ -1,6 +1,6 @@
 output "vpn_gw_subnet_id" {
   description = "Dedicated subnet id for the GW."
-  value       = module.azure-network-subnet-gateway.subnet_ids[0]
+  value       = module.azure-network-subnet-gateway.subnet_id
 }
 
 output "vpn_gw_id" {

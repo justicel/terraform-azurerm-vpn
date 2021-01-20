@@ -1,6 +1,6 @@
 module "azure-network-subnet-gateway" {
   source  = "claranet/subnet/azurerm"
-  version = "3.0.0"
+  version = "4.2.0"
 
   environment    = var.environment
   location_short = var.location_short
@@ -13,11 +13,11 @@ module "azure-network-subnet-gateway" {
   subnet_cidr_list = [var.subnet_gateway_cidr]
 
   # Fixed name, imposed by Azure
-  custom_subnet_names = ["GatewaySubnet"]
+  custom_subnet_name = "GatewaySubnet"
 
   # No NSG because the GW needs to generates its own rules
-  network_security_group_ids = {}
+  network_security_group_name = null
 
   # No RTB because the GW needs to generates its own routes and propagate them
-  route_table_ids = {}
+  route_table_name = null
 }
