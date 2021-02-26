@@ -28,7 +28,7 @@ resource "azurerm_virtual_network_gateway" "public_virtual_network_gateway" {
   ip_configuration {
     name                 = coalesce(var.vpn_gw_ipconfig_custom_name, "vnetGatewayIPConfig")
     public_ip_address_id = azurerm_public_ip.virtual_gateway_pubip.id
-    subnet_id            = module.azure-network-subnet-gateway.subnet_ids[0]
+    subnet_id            = module.azure-network-subnet-gateway.subnet_id
   }
 
   tags = merge(local.default_tags, var.extra_tags)
@@ -58,4 +58,3 @@ resource "azurerm_virtual_network_gateway_connection" "azure-hub_to_onprem" {
 
   tags = merge(local.default_tags, var.extra_tags)
 }
-
