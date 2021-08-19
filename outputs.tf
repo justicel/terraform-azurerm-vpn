@@ -1,6 +1,6 @@
 output "vpn_gw_subnet_id" {
   description = "Dedicated subnet id for the GW."
-  value       = module.azure-network-subnet-gateway.subnet_id
+  value       = module.subnet_gateway.subnet_id
 }
 
 output "vpn_gw_id" {
@@ -35,6 +35,6 @@ output "vpn_local_gw_id" {
 
 output "vpn_connection_id" {
   description = "The VPN connection id."
-  value       = azurerm_virtual_network_gateway_connection.azure-hub_to_onprem.id
+  value       = azurerm_virtual_network_gateway_connection.azurehub_to_onprem.id
 }
 

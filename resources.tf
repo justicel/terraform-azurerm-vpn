@@ -15,7 +15,8 @@ resource "azurerm_public_ip" "virtual_gateway_pubip" {
 resource "azurerm_virtual_network_gateway" "public_virtual_network_gateway" {
   name     = "pub-${coalesce(var.custom_name, local.default_basename)}-vng"
   location = var.location
-  // Must be in the same rg as VNET
+
+  # Must be in the same rg as VNET
   resource_group_name = coalesce(var.network_resource_group_name, var.resource_group_name)
 
   type     = var.vpn_gw_type
@@ -28,7 +29,7 @@ resource "azurerm_virtual_network_gateway" "public_virtual_network_gateway" {
   ip_configuration {
     name                 = coalesce(var.vpn_gw_ipconfig_custom_name, "vnetGatewayIPConfig")
     public_ip_address_id = azurerm_public_ip.virtual_gateway_pubip.id
-    subnet_id            = module.azure-network-subnet-gateway.subnet_id
+    subnet_id            = module.subnet_gateway.subnet_id
   }
 
   tags = merge(local.default_tags, var.extra_tags)
@@ -45,7 +46,7 @@ resource "azurerm_local_network_gateway" "local_network_gateway" {
   tags = merge(local.default_tags, var.extra_tags)
 }
 
-resource "azurerm_virtual_network_gateway_connection" "azure-hub_to_onprem" {
+resource "azurerm_virtual_network_gateway_connection" "azurehub_to_onprem" {
   name                = var.vpn_gw_connection_name
   location            = var.location
   resource_group_name = var.resource_group_name

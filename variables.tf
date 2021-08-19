@@ -37,6 +37,7 @@ variable "name_prefix" {
 
 variable "custom_name" {
   description = "Custom VPN Gateway name, generated if not set"
+  type        = string
   default     = ""
 }
 
@@ -93,6 +94,7 @@ variable "vpn_gw_public_ip_custom_name" {
 
 variable "vpn_gw_connection_name" {
   description = "Custom name for VPN Gateway connection resource."
+  type        = string
   default     = "azure_hub_to_on-prem_resources"
 }
 
@@ -128,6 +130,7 @@ variable "vpn_gw_active_active" {
 
 variable "vpn_gw_sku" {
   description = "Configuration of the size and capacity of the virtual network gateway. Valid options are Basic, Standard, HighPerformance, UltraPerformance, ErGw1AZ, ErGw2AZ, ErGw3AZ, VpnGw1, VpnGw2, VpnGw3, VpnGw1AZ, VpnGw2AZ, and VpnGw3AZ and depend on the type and vpn_type arguments. A PolicyBased gateway only supports the Basic sku. Further, the UltraPerformance sku is only supported by an ExpressRoute gateway."
+  type        = string
   default     = "VpnGw1"
 }
 
@@ -136,4 +139,3 @@ variable "vpn_gw_enable_bgp" {
   default     = false
   type        = bool
 }
-

@@ -2,6 +2,7 @@
 
 Updated
   * AZ-495: Compatible with terraform `v0.15+/v1.0+`, README update
+  * AZ-530: Module cleanup, linter errors fix
 
 # v3.1.0/v4.0.0 - 2021-02-26
 

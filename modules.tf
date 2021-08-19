@@ -1,4 +1,4 @@
-module "azure-network-subnet-gateway" {
+module "subnet_gateway" {
   source  = "claranet/subnet/azurerm"
   version = "4.2.0"
 
