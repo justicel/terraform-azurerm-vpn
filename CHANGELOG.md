@@ -1,4 +1,4 @@
-# unreleased
+# v4.1.0/v3.2.0 - 2021-08-24
 
 Updated
   * AZ-495: Compatible with terraform `v0.15+/v1.0+`, README update
