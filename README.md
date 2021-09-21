@@ -4,7 +4,8 @@
 This feature creates an [Azure VPN Gateway](https://docs.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways) 
 with its own dedicated Subnet, public IP, and the connection resource.
 
-## Version compatibility
+<!-- BEGIN_TF_DOCS -->
+## Global versioning rule for Claranet Azure modules
 
 | Module version | Terraform version | AzureRM version |
 | -------------- | ----------------- | --------------- |
@@ -14,14 +15,14 @@ with its own dedicated Subnet, public IP, and the connection resource.
 | >= 2.x.x       | 0.12.x            | < 2.0           |
 | <  2.x.x       | 0.11.x            | < 2.0           |
 
-## Usage  
+## Usage
 
-This module is optimized to work with the [Claranet terraform-wrapper](https://github.com/claranet/terraform-wrapper) tool which set some terraform variables in the environment needed by this module.
-
-More details about variables set by the terraform-wrapper available in the [documentation](https://github.com/claranet/terraform-wrapper#environment).
+This module is optimized to work with the [Claranet terraform-wrapper](https://github.com/claranet/terraform-wrapper) tool
+which set some terraform variables in the environment needed by this module.
+More details about variables set by the `terraform-wrapper` available in the [documentation](https://github.com/claranet/terraform-wrapper#environment).
 
 ```hcl
-module "azure-region" {
+module "azure_region" {
   source  = "claranet/regions/azurerm"
   version = "x.x.x"
 
@@ -31,127 +32,54 @@ module "azure-region" {
 module "rg" {
   source  = "claranet/rg/azurerm"
   version = "x.x.x"
-  location     = module.azure-region.location
-  client_name  = var.client_name
-  environment  = var.environment
-  stack        = var.stack
+
+  location    = module.azure_region.location
+  client_name = var.client_name
+  environment = var.environment
+  stack       = var.stack
 }
 
-module "azure-network-vnet" {
+module "azure_network_vnet" {
   source  = "claranet/vnet/azurerm"
   version = "x.x.x"
 
-  environment      = var.environment
-  location         = module.azure-region.location
-  location_short   = module.azure-region.location-short
-  client_name      = var.client_name
-  stack            = var.stack
-  custom_vnet_name = var.custom_vnet_name
+  environment    = var.environment
+  location       = module.azure_region.location
+  location_short = module.azure_region.location_short
+  client_name    = var.client_name
+  stack          = var.stack
 
   resource_group_name = module.rg.resource_group_name
   vnet_cidr           = ["10.10.1.0/16"]
 }
 
-module "vpn-gw" {
+module "vpn_gw" {
   source  = "claranet/vpn/azurerm"
   version = "x.x.x"
 
   client_name         = var.client_name
   environment         = var.environment
   stack               = var.stack
+  location            = module.azure_region.location
+  location_short      = module.azure_region.location_short
   resource_group_name = module.rg.resource_group_name
-  location            = module.azure-region.location
-  location_short      = module.azure-region.location_short
 
   # You can set either a prefix for generated name or a custom one for the resource naming
-  custom_name = var.custom_vpn_gw_name
+  #custom_name = var.custom_vpn_gw_name
 
-  virtual_network_name = module.azure-network-vnet.virtual_network_name
+  virtual_network_name = module.azure_network_vnet.virtual_network_name
   subnet_gateway_cidr  = "10.10.1.0/25"
 
-  on_prem_gateway_subnets_cidrs = local.on_prem_gateway_subnets
-  on_prem_gateway_ip            = local.on_prem_gateway_ip
+  on_prem_gateway_subnets_cidrs = var.on_prem_gateway_subnets
+  on_prem_gateway_ip            = var.on_prem_gateway_ip
 
   vpn_ipsec_shared_key = var.shared_key
 
   vpn_gw_connection_name = "azure_to_${var.client_name}_on-prem"
 }
+
 ```
 
-Usage with a dedicated RG for VNet and Subnet, and another one for VPN GW resources:
-
-```hcl
-module "azure-region" {
-  source  = "claranet/regions/azurerm"
-  version = "x.x.x"
-
-  azure_region = var.azure_region
-}
-
-module "rg-vnet" {
-  source  = "claranet/rg/azurerm"
-  version = "x.x.x"
-
-  location     = module.azure-region.location
-  client_name  = var.client_name
-  environment  = var.environment
-  stack        = var.stack
-}
-
-module "rg-vpn" {
-  source  = "claranet/rg/azurerm"
-  version = "x.x.x"
-
-  location     = module.azure-region.location
-  client_name  = var.client_name
-  environment  = var.environment
-  stack        = var.stack
-}
-
-module "azure-network-vnet" {
-  source  = "claranet/vnet/azurerm"
-  version = "x.x.x"
-
-  environment      = var.environment
-  location         = module.azure-region.location
-  location_short   = module.azure-region.location-short
-  client_name      = var.client_name
-  stack            = var.stack
-  custom_vnet_name = var.custom_vnet_name
-
-  resource_group_name = module.rg-vnet.resource_group_name
-  vnet_cidr           = ["10.10.1.0/16"]
-}
-
-module "vpn-gw" {
-  source  = "claranet/vpn/azurerm"
-  version = "x.x.x"
-
-  client_name         = var.client_name
-  environment         = var.environment
-  stack               = var.stack
-  resource_group_name = module.rg-vpn.resource_group_name
-  location            = module.azure-region.location
-  location_short      = module.azure-region.location_short
-
-  # You can set either a prefix for generated name or a custom one for the resource naming
-  custom_name = var.custom_vpn_gw_name
-
-  network_resource_group_name = module.rg-vnet.resource_group_name
-
-  virtual_network_name = module.azure-network-vnet.virtual_network_name
-  subnet_gateway_cidr  = "10.10.1.0/25"
-
-  on_prem_gateway_subnets_cidrs = local.on_prem_gateway_subnets
-  on_prem_gateway_ip            = local.on_prem_gateway_ip
-
-  vpn_ipsec_shared_key = var.shared_key
-
-  vpn_gw_connection_name = "azure_to_${var.client_name}_on-prem"
-}
-```
-
-<!-- BEGIN_TF_DOCS -->
 ## Providers
 
 | Name | Version |
@@ -218,4 +146,4 @@ module "vpn-gw" {
 <!-- END_TF_DOCS -->
 ## Related documentation
 
- - Microsoft VPN Gateway documentation [docs.microsoft.com/fr-fr/azure/vpn-gateway/vpn-gateway-about-vpngateways](https://docs.microsoft.com/fr-fr/azure/vpn-gateway/vpn-gateway-about-vpngateways)
+Microsoft VPN Gateway documentation [docs.microsoft.com/fr-fr/azure/vpn-gateway/vpn-gateway-about-vpngateways](https://docs.microsoft.com/fr-fr/azure/vpn-gateway/vpn-gateway-about-vpngateways)
