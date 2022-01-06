@@ -40,7 +40,8 @@ resource "azurerm_local_network_gateway" "local_network_gateway" {
   location            = var.location
   resource_group_name = var.resource_group_name
 
-  gateway_address = var.on_prem_gateway_ip
+  gateway_address = local.on_prem_gateway_ip
+  gateway_fqdn    = local.on_prem_gateway_fqdn
   address_space   = var.on_prem_gateway_subnets_cidrs
 
   tags = merge(local.default_tags, var.extra_tags)

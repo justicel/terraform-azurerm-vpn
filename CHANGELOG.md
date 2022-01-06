@@ -1,6 +1,7 @@
 # Unreleased
 
 Changed
+  * AZ-651: Adding gateway_fqdn input as optional + upgrade azurerm provider in 2.34.0
   * AZ-572: Revamp examples and improve CI
 
 # v4.1.0/v3.2.0 - 2021-08-24
