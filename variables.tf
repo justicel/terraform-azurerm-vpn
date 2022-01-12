@@ -64,8 +64,8 @@ variable "subnet_gateway_cidr" {
   type        = string
 }
 
-variable "on_prem_gateway_ip" {
-  description = "On-premise Gateway endpoint IP to connect Azure with."
+variable "on_prem_gateway_endpoint" {
+  description = "On-premise Gateway endpoint IP or FQDN to connect Azure with."
   type        = string
 }
 

@@ -47,7 +47,7 @@ module "vpn_gw" {
   subnet_gateway_cidr  = "10.10.1.0/25"
 
   on_prem_gateway_subnets_cidrs = var.on_prem_gateway_subnets
-  on_prem_gateway_ip            = var.on_prem_gateway_ip
+  on_prem_gateway_endpoint      = var.on_prem_gateway_endpoint
 
   vpn_ipsec_shared_key = var.shared_key
 

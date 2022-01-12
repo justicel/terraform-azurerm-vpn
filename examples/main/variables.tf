@@ -23,8 +23,8 @@ variable "on_prem_gateway_subnets" {
   type        = list(string)
 }
 
-variable "on_prem_gateway_ip" {
-  description = "Gateway IP on premises"
+variable "on_prem_gateway_endpoint" {
+  description = "Gateway IP/FQDN on premises"
   type        = string
 }
 

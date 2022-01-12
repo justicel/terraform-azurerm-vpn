@@ -71,7 +71,7 @@ module "vpn_gw" {
   subnet_gateway_cidr  = "10.10.1.0/25"
 
   on_prem_gateway_subnets_cidrs = var.on_prem_gateway_subnets
-  on_prem_gateway_ip            = var.on_prem_gateway_ip
+  on_prem_gateway_endpoint      = var.on_prem_gateway_endpoint
 
   vpn_ipsec_shared_key = var.shared_key
 
@@ -84,7 +84,7 @@ module "vpn_gw" {
 
 | Name | Version |
 |------|---------|
-| azurerm | >= 2.8.0 |
+| azurerm | >= 2.34.0 |
 
 ## Modules
 
@@ -113,7 +113,7 @@ module "vpn_gw" {
 | location\_short | Short string for Azure location | `string` | n/a | yes |
 | name\_prefix | Optional prefix for VPN Gateway name | `string` | `""` | no |
 | network\_resource\_group\_name | Vnet and subnet Resource group name. To use only if you need to have a dedicated Resource Group for all VPN GW resources. (set via `resource_group_name` var.) | `string` | `""` | no |
-| on\_prem\_gateway\_ip | On-premise Gateway endpoint IP to connect Azure with. | `string` | n/a | yes |
+| on\_prem\_gateway\_endpoint | On-premise Gateway endpoint IP or FQDN to connect Azure with. | `string` | n/a | yes |
 | on\_prem\_gateway\_subnets\_cidrs | On-premise subnets list to route from the Hub. (list of strings) | `list(string)` | n/a | yes |
 | resource\_group\_name | Name of the resource group | `string` | n/a | yes |
 | stack | Project stack name | `string` | n/a | yes |
