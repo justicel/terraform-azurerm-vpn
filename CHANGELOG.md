@@ -1,7 +1,10 @@
-# Unreleased
+# v4.2.0 - 2022-01-12
+
+Breaking
+  * AZ-651: Change `on_prem_gateway_ip` parameter with a more generic one: `on_prem_gateway_endpoint` (which can be an IP or a FQDN)
+  * AZ-651: Upgrade AzureRM provider minimum version to `v2.34.0`
 
 Changed
-  * AZ-651: Adding gateway_fqdn input as optional + upgrade azurerm provider in 2.34.0
   * AZ-572: Revamp examples and improve CI
 
 # v4.1.0/v3.2.0 - 2021-08-24
