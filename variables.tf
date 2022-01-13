@@ -29,18 +29,6 @@ variable "client_name" {
   type        = string
 }
 
-variable "name_prefix" {
-  description = "Optional prefix for VPN Gateway name"
-  type        = string
-  default     = ""
-}
-
-variable "custom_name" {
-  description = "Custom VPN Gateway name, generated if not set"
-  type        = string
-  default     = ""
-}
-
 variable "extra_tags" {
   description = "Additional tags to associate with your VPN Gateway."
   type        = map(string)
@@ -80,23 +68,6 @@ variable "vpn_ipsec_shared_key" {
 }
 
 # VPN GW specific options
-variable "vpn_gw_ipconfig_custom_name" {
-  description = "VPN GW IP Config resource custom name"
-  type        = string
-  default     = ""
-}
-
-variable "vpn_gw_public_ip_custom_name" {
-  description = "VPN GW Public IP resource custom name"
-  type        = string
-  default     = ""
-}
-
-variable "vpn_gw_connection_name" {
-  description = "Custom name for VPN Gateway connection resource."
-  type        = string
-  default     = "azure_hub_to_on-prem_resources"
-}
 
 variable "vpn_gw_public_ip_allocation_method" {
   description = "Defines the allocation method for this IP address. Possible values are `Static` or `Dynamic`."

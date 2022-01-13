@@ -84,6 +84,7 @@ module "vpn_gw" {
 
 | Name | Version |
 |------|---------|
+| azurecaf | ~> 1.1 |
 | azurerm | >= 2.34.0 |
 
 ## Modules
@@ -96,6 +97,10 @@ module "vpn_gw" {
 
 | Name | Type |
 |------|------|
+| [azurecaf_name.gw_pub_ip](https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/resources/name) | resource |
+| [azurecaf_name.local_gw](https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/resources/name) | resource |
+| [azurecaf_name.vnet_gw](https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/resources/name) | resource |
+| [azurecaf_name.vpn_gw_connection](https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/resources/name) | resource |
 | [azurerm_local_network_gateway.local_network_gateway](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/local_network_gateway) | resource |
 | [azurerm_public_ip.virtual_gateway_pubip](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) | resource |
 | [azurerm_virtual_network_gateway.public_virtual_network_gateway](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network_gateway) | resource |
@@ -111,16 +116,18 @@ module "vpn_gw" {
 | extra\_tags | Additional tags to associate with your VPN Gateway. | `map(string)` | `{}` | no |
 | location | Azure region to use | `string` | n/a | yes |
 | location\_short | Short string for Azure location | `string` | n/a | yes |
-| name\_prefix | Optional prefix for VPN Gateway name | `string` | `""` | no |
+| name\_prefix | Optional prefix for the generated name | `string` | `""` | no |
+| name\_suffix | Optional suffix for the generated name | `string` | `""` | no |
 | network\_resource\_group\_name | Vnet and subnet Resource group name. To use only if you need to have a dedicated Resource Group for all VPN GW resources. (set via `resource_group_name` var.) | `string` | `""` | no |
 | on\_prem\_gateway\_endpoint | On-premise Gateway endpoint IP or FQDN to connect Azure with. | `string` | n/a | yes |
 | on\_prem\_gateway\_subnets\_cidrs | On-premise subnets list to route from the Hub. (list of strings) | `list(string)` | n/a | yes |
 | resource\_group\_name | Name of the resource group | `string` | n/a | yes |
 | stack | Project stack name | `string` | n/a | yes |
 | subnet\_gateway\_cidr | CIDR range for the dedicated Gateway subnet. Must be a range available in the Vnet. | `string` | n/a | yes |
+| use\_caf\_naming | Use the Azure CAF naming provider to generate default resource name. `custom_name` override this if set. Legacy default name is used if this is set to `false`. | `bool` | `true` | no |
 | virtual\_network\_name | Virtual Network Name where the dedicated Subnet and GW will be created. | `string` | n/a | yes |
 | vpn\_gw\_active\_active | If true, an active-active Virtual Network Gateway will be created. An active-active gateway requires a HighPerformance or an UltraPerformance sku. If false, an active-standby gateway will be created. Defaults to false. | `bool` | `false` | no |
-| vpn\_gw\_connection\_name | Custom name for VPN Gateway connection resource. | `string` | `"azure_hub_to_on-prem_resources"` | no |
+| vpn\_gw\_connection\_name | Custom name for VPN Gateway connection resource. | `string` | `""` | no |
 | vpn\_gw\_enable\_bgp | If true, BGP (Border Gateway Protocol) will be enabled for this Virtual Network Gateway. Defaults to false. | `bool` | `false` | no |
 | vpn\_gw\_ipconfig\_custom\_name | VPN GW IP Config resource custom name | `string` | `""` | no |
 | vpn\_gw\_public\_ip\_allocation\_method | Defines the allocation method for this IP address. Possible values are `Static` or `Dynamic`. | `string` | `"Dynamic"` | no |
