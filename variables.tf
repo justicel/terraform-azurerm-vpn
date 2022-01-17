@@ -93,6 +93,12 @@ variable "vpn_gw_active_active" {
   type        = bool
 }
 
+variable "vpn_gw_generation" {
+  description = "Configuration of the generation of the virtual network gateway. Valid options are Generation1, Generation2 or None"
+  type        = string
+  default     = "Generation1"
+}
+
 variable "vpn_gw_sku" {
   description = "Configuration of the size and capacity of the virtual network gateway. Valid options are Basic, Standard, HighPerformance, UltraPerformance, ErGw1AZ, ErGw2AZ, ErGw3AZ, VpnGw1, VpnGw2, VpnGw3, VpnGw1AZ, VpnGw2AZ, and VpnGw3AZ and depend on the type and vpn_type arguments. A PolicyBased gateway only supports the Basic sku. Further, the UltraPerformance sku is only supported by an ExpressRoute gateway."
   type        = string

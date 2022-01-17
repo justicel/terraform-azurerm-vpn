@@ -1,3 +1,8 @@
+# Unrelease
+
+Added
+  * AZ-666: Option to select which generation of VPN to use
+
 # v5.1.0 - 2022-04-15
 
 Added

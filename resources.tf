@@ -23,6 +23,7 @@ resource "azurerm_virtual_network_gateway" "public_virtual_network_gateway" {
 
   active_active = var.vpn_gw_active_active
   enable_bgp    = var.vpn_gw_enable_bgp
+  generation    = var.vpn_gw_generation
   sku           = var.vpn_gw_sku
 
   ip_configuration {
