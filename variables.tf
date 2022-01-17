@@ -63,6 +63,16 @@ variable "vpn_ipsec_shared_key" {
 
 # VPN GW specific options
 
+variable "vpn_gw_public_ip_number" {
+  description = "Number of Public IPs to allocate and associated to the Gateway. By default only 1. Maximum is 3."
+  type        = number
+  default     = 1
+  validation {
+    condition     = var.vpn_gw_public_ip_number >= 1 && var.vpn_gw_public_ip_number <= 3
+    error_message = "Only one, two or three IPs can be associated to the Gateway."
+  }
+}
+
 variable "vpn_gw_public_ip_allocation_method" {
   description = "Defines the allocation method for this IP address. Possible values are `Static` or `Dynamic`."
   type        = string

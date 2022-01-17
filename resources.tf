@@ -1,5 +1,6 @@
 resource "azurerm_public_ip" "virtual_gateway_pubip" {
-  name = local.gw_pub_ip_name
+  for_each = toset(range(1, var.vpn_gw_public_ip_number + 1))
+  name     = "${local.gw_pub_ip_name}-0{each.key}"
 
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -26,10 +27,14 @@ resource "azurerm_virtual_network_gateway" "public_virtual_network_gateway" {
   generation    = var.vpn_gw_generation
   sku           = var.vpn_gw_sku
 
-  ip_configuration {
-    name                 = local.vpn_gw_ipconfig_name
-    public_ip_address_id = azurerm_public_ip.virtual_gateway_pubip.id
-    subnet_id            = module.subnet_gateway.subnet_id
+  dynamic "ip_configuration" {
+    for_each = toset(range(1, var.vpn_gw_public_ip_number + 1))
+
+    content {
+      name                 = "${local.vpn_gw_ipconfig_name}-0{each.key}"
+      public_ip_address_id = azurerm_public_ip.virtual_gateway_pubip[ip_configuration.key].id
+      subnet_id            = module.subnet_gateway.subnet_id
+    }
   }
 
   tags = merge(local.default_tags, var.extra_tags)
