@@ -13,7 +13,7 @@ output "vpn_gw_name" {
   value       = azurerm_virtual_network_gateway.public_virtual_network_gateway.name
 }
 
-output "vpn_public_ip_name" {
+/* output "vpn_public_ip_name" {
   description = "Azure VPN GW public IP resource name."
   value       = azurerm_public_ip.virtual_gateway_pubip.name
 }
@@ -21,7 +21,7 @@ output "vpn_public_ip_name" {
 output "vpn_public_ip" {
   description = "Azure VPN GW public IP."
   value       = azurerm_public_ip.virtual_gateway_pubip.ip_address
-}
+} */
 
 output "vpn_local_gw_name" {
   description = "Azure vnet local GW name."

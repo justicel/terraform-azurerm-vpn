@@ -130,9 +130,11 @@ module "vpn_gw" {
 | vpn\_gw\_active\_active | If true, an active-active Virtual Network Gateway will be created. An active-active gateway requires a HighPerformance or an UltraPerformance sku. If false, an active-standby gateway will be created. Defaults to false. | `bool` | `false` | no |
 | vpn\_gw\_connection\_name | Custom name for VPN Gateway connection resource. | `string` | `""` | no |
 | vpn\_gw\_enable\_bgp | If true, BGP (Border Gateway Protocol) will be enabled for this Virtual Network Gateway. Defaults to false. | `bool` | `false` | no |
+| vpn\_gw\_generation | Configuration of the generation of the virtual network gateway. Valid options are Generation1, Generation2 or None | `string` | `"Generation1"` | no |
 | vpn\_gw\_ipconfig\_custom\_name | VPN GW IP Config resource custom name | `string` | `""` | no |
 | vpn\_gw\_public\_ip\_allocation\_method | Defines the allocation method for this IP address. Possible values are `Static` or `Dynamic`. | `string` | `"Dynamic"` | no |
 | vpn\_gw\_public\_ip\_custom\_name | VPN GW Public IP resource custom name | `string` | `""` | no |
+| vpn\_gw\_public\_ip\_number | Number of Public IPs to allocate and associated to the Gateway. By default only 1. Maximum is 3. | `number` | `1` | no |
 | vpn\_gw\_public\_ip\_sku | The SKU of the Public IP. Accepted values are `Basic` and `Standard`. | `string` | `"Basic"` | no |
 | vpn\_gw\_routing\_type | The routing type of the Virtual Network Gateway. Valid options are `RouteBased` or `PolicyBased`. Defaults to RouteBased. | `string` | `"RouteBased"` | no |
 | vpn\_gw\_sku | Configuration of the size and capacity of the virtual network gateway. Valid options are Basic, Standard, HighPerformance, UltraPerformance, ErGw1AZ, ErGw2AZ, ErGw3AZ, VpnGw1, VpnGw2, VpnGw3, VpnGw1AZ, VpnGw2AZ, and VpnGw3AZ and depend on the type and vpn\_type arguments. A PolicyBased gateway only supports the Basic sku. Further, the UltraPerformance sku is only supported by an ExpressRoute gateway. | `string` | `"VpnGw1"` | no |
@@ -149,8 +151,6 @@ module "vpn_gw" {
 | vpn\_gw\_subnet\_id | Dedicated subnet id for the GW. |
 | vpn\_local\_gw\_id | Azure vnet local GW id. |
 | vpn\_local\_gw\_name | Azure vnet local GW name. |
-| vpn\_public\_ip | Azure VPN GW public IP. |
-| vpn\_public\_ip\_name | Azure VPN GW public IP resource name. |
 <!-- END_TF_DOCS -->
 ## Related documentation
 
