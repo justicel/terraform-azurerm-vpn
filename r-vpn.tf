@@ -41,28 +41,54 @@ resource "azurerm_virtual_network_gateway" "public_virtual_network_gateway" {
 }
 
 resource "azurerm_local_network_gateway" "local_network_gateway" {
-  name = local.local_gw_name
+  for_each = var.vpn_connections
+
+  name = lookup(each.value, "custom_name", azurecaf_name.local_network_gateway[each.key].result)
 
   location            = var.location
   resource_group_name = var.resource_group_name
 
-  gateway_address = local.on_prem_gateway_ip
-  gateway_fqdn    = local.on_prem_gateway_fqdn
-  address_space   = var.on_prem_gateway_subnets_cidrs
+  gateway_address = lookup(each.value, "local_gateway_address", null)
+  gateway_fqdn    = lookup(each.value, "local_gateway_fqdn", null)
+  address_space   = lookup(each.value, "local_gateway_address_space", [])
 
   tags = merge(local.default_tags, var.extra_tags)
 }
 
-resource "azurerm_virtual_network_gateway_connection" "azurehub_to_onprem" {
-  name                = local.vpn_gw_connection_name
+resource "azurerm_virtual_network_gateway_connection" "virtual_network_gateway_connection" {
+  for_each = var.vpn_connections
+
+  name                = lookup(each.value, "custom_name", azurecaf_name.vpn_gw_connection[each.key].result)
   location            = var.location
   resource_group_name = var.resource_group_name
 
   type                       = "IPsec"
   virtual_network_gateway_id = azurerm_virtual_network_gateway.public_virtual_network_gateway.id
-  local_network_gateway_id   = azurerm_local_network_gateway.local_network_gateway.id
+  local_network_gateway_id   = azurerm_local_network_gateway.local_network_gateway[each.key].id
 
-  shared_key = var.vpn_ipsec_shared_key
+  shared_key = lookup(each.value, "shared_key", random_password.vpn_ipsec_shared_key[each.key].result)
 
-  tags = merge(local.default_tags, var.extra_tags)
+  tags = merge(local.default_tags, var.extra_tags, each.value.extra_tags)
+
+  dpd_timeout_seconds = lookup(each.value, "dpd_timeout_seconds", null)
+
+  dynamic "ipsec_policy" {
+    for_each = length(lookup(each.value, "ipsec_policy", {})) >= 1 ? ["_"] : []
+    content {
+      dh_group         = each.value.ipsec_policy.dh_group
+      ike_encryption   = each.value.ipsec_policy.ike_encryption
+      ike_integrity    = each.value.ipsec_policy.ike_integrity
+      ipsec_encryption = each.value.ipsec_policy.ipsec_encryption
+      ipsec_integrity  = each.value.ipsec_policy.ipsec_integrity
+      pfs_group        = each.value.ipsec_policy.pfs_group
+      sa_datasize      = each.value.ipsec_policy.sa_datasize
+      sa_lifetime      = each.value.ipsec_policy.sa_lifetime
+    }
+  }
+}
+
+resource "random_password" "vpn_ipsec_shared_key" {
+  for_each = var.vpn_connections
+  length   = 32
+  special  = false
 }

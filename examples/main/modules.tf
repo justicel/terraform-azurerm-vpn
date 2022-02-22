@@ -40,16 +40,15 @@ module "vpn_gw" {
   location_short      = module.azure_region.location_short
   resource_group_name = module.rg.resource_group_name
 
-  # You can set either a prefix for generated name or a custom one for the resource naming
-  #custom_name = var.custom_vpn_gw_name
-
   virtual_network_name = module.azure_network_vnet.virtual_network_name
   subnet_gateway_cidr  = "10.10.1.0/25"
 
-  on_prem_gateway_subnets_cidrs = var.on_prem_gateway_subnets
-  on_prem_gateway_endpoint      = var.on_prem_gateway_endpoint
-
-  vpn_ipsec_shared_key = var.shared_key
-
-  vpn_gw_connection_name = "azure_to_${var.client_name}_on-prem"
+  vpn_connections = {
+    azure_to_claranet = {
+      name_suffix                 = "claranet",
+      extra_tags                  = { to = "claranet" }
+      local_gateway_address       = "89.185.1.1"
+      local_gateway_address_space = ["89.185.1.1/32"]
+    }
+  }
 }

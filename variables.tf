@@ -46,21 +46,6 @@ variable "subnet_gateway_cidr" {
   type        = string
 }
 
-variable "on_prem_gateway_endpoint" {
-  description = "On-premise Gateway endpoint IP or FQDN to connect Azure with."
-  type        = string
-}
-
-variable "on_prem_gateway_subnets_cidrs" {
-  description = "On-premise subnets list to route from the Hub. (list of strings)"
-  type        = list(string)
-}
-
-variable "vpn_ipsec_shared_key" {
-  description = "The Shared key between both On-premise Gateway and Azure GW for VPN IPsec connection."
-  type        = string
-}
-
 # VPN GW specific options
 
 variable "vpn_gw_public_ip_number" {
@@ -119,4 +104,11 @@ variable "vpn_gw_enable_bgp" {
   description = "If true, BGP (Border Gateway Protocol) will be enabled for this Virtual Network Gateway. Defaults to false."
   default     = false
   type        = bool
+}
+
+variable "vpn_connections" {
+  description = "Connections"
+  type        = any
+  default = { azurehub_to_onprem = {}
+  }
 }

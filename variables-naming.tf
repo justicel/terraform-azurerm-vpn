@@ -35,9 +35,3 @@ variable "vpn_gw_public_ip_custom_name" {
   type        = string
   default     = ""
 }
-
-variable "vpn_gw_connection_name" {
-  description = "Custom name for VPN Gateway connection resource."
-  type        = string
-  default     = ""
-}

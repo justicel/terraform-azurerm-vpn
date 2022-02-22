@@ -1,7 +1,11 @@
 # Unrelease
 
-Added
+Breaking
   * AZ-666: Option to select which generation of VPN to use
+  * AZ-686: Add multi connections and public ips
+
+Changed
+  * AZ-666: Upgrade provider to >=2.38.0 [#9330](https://github.com/hashicorp/terraform-provider-azurerm/pull/9330)
 
 # v5.1.0 - 2022-04-15
 
@@ -28,7 +32,7 @@ Changed
 Updated
   * AZ-495: Compatible with terraform `v0.15+/v1.0+`, README update
   * AZ-530: Module cleanup, linter errors fix
-  * AZ-532: Revamp README with latest `terraform-docs` tool 
+  * AZ-532: Revamp README with latest `terraform-docs` tool
 
 # v3.1.0/v4.0.0 - 2021-02-26
 
@@ -39,10 +43,10 @@ Updated
 
 Breaking
   * AZ-198: Upgrade module to Azurerm 2.x
-  
+
 Changed
   * AZ-209: Update CI with Gitlab template
- 
+
 # v2.0.0 - 2020-02-05
 
 Breaking
@@ -52,13 +56,13 @@ Added
   * AZ-118: Add NOTICE and LICENSE file + update README with badges
   * AZ-119: Revamp to match Terraform/Hashicorp best practices
   * AZ-175: Public release + Fix bug when using dedicated RG
-    
+
 # v0.1.1 - 2019-08-23
 
 Updated
   * AZ-91: Allow custom name for GW IP tf resource
 
-# v0.1.0 - 2019-07-19 
+# v0.1.0 - 2019-07-19
 
 Added
   * AZ-91: First version

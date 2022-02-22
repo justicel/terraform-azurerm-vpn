@@ -65,18 +65,17 @@ module "vpn_gw" {
   location_short      = module.azure_region.location_short
   resource_group_name = module.rg.resource_group_name
 
-  # You can set either a prefix for generated name or a custom one for the resource naming
-  #custom_name = var.custom_vpn_gw_name
-
   virtual_network_name = module.azure_network_vnet.virtual_network_name
   subnet_gateway_cidr  = "10.10.1.0/25"
 
-  on_prem_gateway_subnets_cidrs = var.on_prem_gateway_subnets
-  on_prem_gateway_endpoint      = var.on_prem_gateway_endpoint
-
-  vpn_ipsec_shared_key = var.shared_key
-
-  vpn_gw_connection_name = "azure_to_${var.client_name}_on-prem"
+  vpn_connections = {
+    azure_to_claranet = {
+      name_suffix                 = "claranet",
+      extra_tags                  = { to = "claranet" }
+      local_gateway_address       = "89.185.1.1"
+      local_gateway_address_space = ["89.185.1.1/32"]
+    }
+  }
 }
 ```
 
@@ -85,7 +84,8 @@ module "vpn_gw" {
 | Name | Version |
 |------|---------|
 | azurecaf | ~> 1.1 |
-| azurerm | >= 2.34.0 |
+| azurerm | >= 2.38.0 |
+| random | ~> 3.0 |
 
 ## Modules
 
@@ -98,13 +98,14 @@ module "vpn_gw" {
 | Name | Type |
 |------|------|
 | [azurecaf_name.gw_pub_ip](https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/resources/name) | resource |
-| [azurecaf_name.local_gw](https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/resources/name) | resource |
+| [azurecaf_name.local_network_gateway](https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/resources/name) | resource |
 | [azurecaf_name.vnet_gw](https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/resources/name) | resource |
 | [azurecaf_name.vpn_gw_connection](https://registry.terraform.io/providers/aztfmod/azurecaf/latest/docs/resources/name) | resource |
 | [azurerm_local_network_gateway.local_network_gateway](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/local_network_gateway) | resource |
 | [azurerm_public_ip.virtual_gateway_pubip](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) | resource |
 | [azurerm_virtual_network_gateway.public_virtual_network_gateway](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network_gateway) | resource |
-| [azurerm_virtual_network_gateway_connection.azurehub_to_onprem](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network_gateway_connection) | resource |
+| [azurerm_virtual_network_gateway_connection.virtual_network_gateway_connection](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network_gateway_connection) | resource |
+| [random_password.vpn_ipsec_shared_key](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
 
 ## Inputs
 
@@ -120,15 +121,13 @@ module "vpn_gw" {
 | name\_prefix | Optional prefix for the generated name | `string` | `""` | no |
 | name\_suffix | Optional suffix for the generated name | `string` | `""` | no |
 | network\_resource\_group\_name | Vnet and subnet Resource group name. To use only if you need to have a dedicated Resource Group for all VPN GW resources. (set via `resource_group_name` var.) | `string` | `""` | no |
-| on\_prem\_gateway\_endpoint | On-premise Gateway endpoint IP or FQDN to connect Azure with. | `string` | n/a | yes |
-| on\_prem\_gateway\_subnets\_cidrs | On-premise subnets list to route from the Hub. (list of strings) | `list(string)` | n/a | yes |
 | resource\_group\_name | Name of the resource group | `string` | n/a | yes |
 | stack | Project stack name | `string` | n/a | yes |
 | subnet\_gateway\_cidr | CIDR range for the dedicated Gateway subnet. Must be a range available in the Vnet. | `string` | n/a | yes |
 | use\_caf\_naming | Use the Azure CAF naming provider to generate default resource name. `custom_name` override this if set. Legacy default name is used if this is set to `false`. | `bool` | `true` | no |
 | virtual\_network\_name | Virtual Network Name where the dedicated Subnet and GW will be created. | `string` | n/a | yes |
+| vpn\_connections | Connections | `any` | <pre>{<br>  "azurehub_to_onprem": {}<br>}</pre> | no |
 | vpn\_gw\_active\_active | If true, an active-active Virtual Network Gateway will be created. An active-active gateway requires a HighPerformance or an UltraPerformance sku. If false, an active-standby gateway will be created. Defaults to false. | `bool` | `false` | no |
-| vpn\_gw\_connection\_name | Custom name for VPN Gateway connection resource. | `string` | `""` | no |
 | vpn\_gw\_enable\_bgp | If true, BGP (Border Gateway Protocol) will be enabled for this Virtual Network Gateway. Defaults to false. | `bool` | `false` | no |
 | vpn\_gw\_generation | Configuration of the generation of the virtual network gateway. Valid options are Generation1, Generation2 or None | `string` | `"Generation1"` | no |
 | vpn\_gw\_ipconfig\_custom\_name | VPN GW IP Config resource custom name | `string` | `""` | no |
@@ -139,18 +138,20 @@ module "vpn_gw" {
 | vpn\_gw\_routing\_type | The routing type of the Virtual Network Gateway. Valid options are `RouteBased` or `PolicyBased`. Defaults to RouteBased. | `string` | `"RouteBased"` | no |
 | vpn\_gw\_sku | Configuration of the size and capacity of the virtual network gateway. Valid options are Basic, Standard, HighPerformance, UltraPerformance, ErGw1AZ, ErGw2AZ, ErGw3AZ, VpnGw1, VpnGw2, VpnGw3, VpnGw1AZ, VpnGw2AZ, and VpnGw3AZ and depend on the type and vpn\_type arguments. A PolicyBased gateway only supports the Basic sku. Further, the UltraPerformance sku is only supported by an ExpressRoute gateway. | `string` | `"VpnGw1"` | no |
 | vpn\_gw\_type | The type of the Virtual Network Gateway. Valid options are `Vpn` or `ExpressRoute`. Changing the type forces a new resource to be created | `string` | `"Vpn"` | no |
-| vpn\_ipsec\_shared\_key | The Shared key between both On-premise Gateway and Azure GW for VPN IPsec connection. | `string` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| vpn\_connection\_id | The VPN connection id. |
+| vpn\_connection\_ids | The VPN connection id. |
 | vpn\_gw\_id | Azure VPN GW id. |
 | vpn\_gw\_name | Azure VPN GW name. |
 | vpn\_gw\_subnet\_id | Dedicated subnet id for the GW. |
-| vpn\_local\_gw\_id | Azure vnet local GW id. |
-| vpn\_local\_gw\_name | Azure vnet local GW name. |
+| vpn\_local\_gw\_ids | Azure vnet local GW id. |
+| vpn\_local\_gw\_names | Azure vnet local GW name. |
+| vpn\_public\_ip | Azure VPN GW public IP. |
+| vpn\_public\_ip\_name | Azure VPN GW public IP resource name. |
+| vpn\_shared\_keys | Shared Keys |
 <!-- END_TF_DOCS -->
 ## Related documentation
 
