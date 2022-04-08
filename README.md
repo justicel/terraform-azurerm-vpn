@@ -112,8 +112,9 @@ module "vpn_gw" {
 |------|-------------|------|---------|:--------:|
 | client\_name | Client name/account used in naming | `string` | n/a | yes |
 | custom\_name | Custom VPN Gateway name, generated if not set | `string` | `""` | no |
+| default\_tags\_enabled | Option to enable or disable default tags | `bool` | `true` | no |
 | environment | Project environment | `string` | n/a | yes |
-| extra\_tags | Additional tags to associate with your VPN Gateway. | `map(string)` | `{}` | no |
+| extra\_tags | Additional tags to associate with your VPN Gateway | `map(string)` | `{}` | no |
 | location | Azure region to use | `string` | n/a | yes |
 | location\_short | Short string for Azure location | `string` | n/a | yes |
 | name\_prefix | Optional prefix for the generated name | `string` | `""` | no |
