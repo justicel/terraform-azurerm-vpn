@@ -29,12 +29,6 @@ variable "client_name" {
   type        = string
 }
 
-variable "extra_tags" {
-  description = "Additional tags to associate with your VPN Gateway."
-  type        = map(string)
-  default     = {}
-}
-
 # VPN GW mandatory parameters
 variable "virtual_network_name" {
   description = "Virtual Network Name where the dedicated Subnet and GW will be created."
