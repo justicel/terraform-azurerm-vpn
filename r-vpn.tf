@@ -50,7 +50,7 @@ resource "azurerm_local_network_gateway" "local_network_gateway" {
 
   gateway_address = lookup(each.value, "local_gateway_address", null)
   gateway_fqdn    = lookup(each.value, "local_gateway_fqdn", null)
-  address_space   = lookup(each.value, "local_gateway_address_space", [])
+  address_space   = lookup(each.value, "local_gateway_address_spaces", [])
 
   tags = merge(local.default_tags, var.extra_tags)
 }

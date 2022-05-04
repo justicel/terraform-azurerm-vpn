@@ -70,10 +70,10 @@ module "vpn_gw" {
 
   vpn_connections = {
     azure_to_claranet = {
-      name_suffix                 = "claranet",
-      extra_tags                  = { to = "claranet" }
-      local_gateway_address       = "89.185.1.1"
-      local_gateway_address_space = ["89.185.1.1/32"]
+      name_suffix                  = "claranet"
+      extra_tags                   = { to = "claranet" }
+      local_gateway_address        = "89.185.1.1"
+      local_gateway_address_spaces = ["89.185.1.1/32"]
     }
   }
 }
@@ -126,7 +126,7 @@ module "vpn_gw" {
 | subnet\_gateway\_cidr | CIDR range for the dedicated Gateway subnet. Must be a range available in the Vnet. | `string` | n/a | yes |
 | use\_caf\_naming | Use the Azure CAF naming provider to generate default resource name. `custom_name` override this if set. Legacy default name is used if this is set to `false`. | `bool` | `true` | no |
 | virtual\_network\_name | Virtual Network Name where the dedicated Subnet and GW will be created. | `string` | n/a | yes |
-| vpn\_connections | Connections | `any` | <pre>{<br>  "azurehub_to_onprem": {}<br>}</pre> | no |
+| vpn\_connections | VPN Connections configuration, must match this type:<pre>map(<br>  connection_name(string) = object({<br>    name_suffix                  (string)<br>    extra_tags                   (map(string))<br>    local_gateway_address        (string)<br>    local_gateway_address_spaces (list(string)) # CIDR Format<br>  })<br>)</pre> | `any` | <pre>{<br>  "azurehub_to_onprem": {}<br>}</pre> | no |
 | vpn\_gw\_active\_active | If true, an active-active Virtual Network Gateway will be created. An active-active gateway requires a HighPerformance or an UltraPerformance sku. If false, an active-standby gateway will be created. Defaults to false. | `bool` | `false` | no |
 | vpn\_gw\_enable\_bgp | If true, BGP (Border Gateway Protocol) will be enabled for this Virtual Network Gateway. Defaults to false. | `bool` | `false` | no |
 | vpn\_gw\_generation | Configuration of the generation of the virtual network gateway. Valid options are Generation1, Generation2 or None | `string` | `"Generation1"` | no |
@@ -147,8 +147,8 @@ module "vpn_gw" {
 | vpn\_gw\_id | Azure VPN GW id. |
 | vpn\_gw\_name | Azure VPN GW name. |
 | vpn\_gw\_subnet\_id | Dedicated subnet id for the GW. |
+| vpn\_local\_gateway\_names | Azure vnet local GW name. |
 | vpn\_local\_gw\_ids | Azure vnet local GW id. |
-| vpn\_local\_gw\_names | Azure vnet local GW name. |
 | vpn\_public\_ip | Azure VPN GW public IP. |
 | vpn\_public\_ip\_name | Azure VPN GW public IP resource name. |
 | vpn\_shared\_keys | Shared Keys |

@@ -48,7 +48,7 @@ variable "subnet_gateway_cidr" {
 
 # VPN GW specific options
 
-variable "vpn_gateway_public_ip_number" {
+variable "vpn_gw_public_ip_number" {
   description = "Number of Public IPs to allocate and associated to the Gateway. By default only 1. Maximum is 3."
   type        = number
   default     = 1
@@ -107,8 +107,21 @@ variable "vpn_gw_enable_bgp" {
 }
 
 variable "vpn_connections" {
-  description = "Connections"
+  description = <<EOD
+VPN Connections configuration, must match this type:
+```
+map(
+  connection_name(string) = object({
+    name_suffix                  (string)
+    extra_tags                   (map(string))
+    local_gateway_address        (string)
+    local_gateway_address_spaces (list(string)) # CIDR Format
+  })
+)
+```
+EOD
   type        = any
-  default = { azurehub_to_onprem = {}
+  default = {
+    azurehub_to_onprem = {}
   }
 }
