@@ -112,10 +112,15 @@ VPN Connections configuration, must match this type:
 ```
 map(
   connection_name(string) = object({
-    name_suffix                  (string)
-    extra_tags                   (map(string))
     local_gateway_address        (string)
     local_gateway_address_spaces (list(string)) # CIDR Format
+
+    name_suffix         (optionnal(string))
+    extra_tags          (optionnal(map(string)))
+    custom_name         (optionnal(string)) # Generated if not set
+    shared_key          (optionnal(string)) # Generated if not set
+    dpd_timeout_seconds (optionnal(number))
+    ipsec_policy        (optionnal(object))
   })
 )
 ```

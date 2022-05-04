@@ -24,23 +24,22 @@ output "vpn_public_ip" {
 }
 
 output "vpn_local_gateway_names" {
-  description = "Azure vnet local GW name."
+  description = "Azure VNET local Gateway names."
   value       = { for k, v in azurerm_local_network_gateway.local_network_gateway : k => v.name }
 }
 
 output "vpn_local_gw_ids" {
-  description = "Azure vnet local GW id."
+  description = "Azure VNET local Gateway IDs."
   value       = { for k, v in azurerm_local_network_gateway.local_network_gateway : k => v.id }
 }
 
 output "vpn_connection_ids" {
-  description = "The VPN connection id."
+  description = "The VPN created connections IDs."
   value       = { for k, v in azurerm_virtual_network_gateway_connection.virtual_network_gateway_connection : k => v.id }
 }
 
 output "vpn_shared_keys" {
-  description = "Shared Keys"
-  value       = { for k, v in random_password.vpn_ipsec_shared_key : k => v.result }
+  description = "Shared Keys used for VPN connections."
+  value       = { for k, v in var.vpn_connections : k => lookup(v, "shared_key", random_password.vpn_ipsec_shared_key[k].result) }
   sensitive   = true
 }
-
