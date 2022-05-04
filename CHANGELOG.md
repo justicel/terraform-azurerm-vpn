@@ -5,7 +5,7 @@ Breaking
   * AZ-686: Add multi connections and public ips
 
 Changed
-  * AZ-666: Upgrade provider to >=2.38.0 [#9330](https://github.com/hashicorp/terraform-provider-azurerm/pull/9330)
+  * AZ-666: Upgrade provider to `>= 2.38.0` [#9330](https://github.com/hashicorp/terraform-provider-azurerm/pull/9330)
 
 # v5.1.0 - 2022-04-15
 

@@ -48,7 +48,7 @@ variable "subnet_gateway_cidr" {
 
 # VPN GW specific options
 
-variable "vpn_gw_public_ip_number" {
+variable "vpn_gateway_public_ip_number" {
   description = "Number of Public IPs to allocate and associated to the Gateway. By default only 1. Maximum is 3."
   type        = number
   default     = 1

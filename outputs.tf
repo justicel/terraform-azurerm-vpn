@@ -23,7 +23,7 @@ output "vpn_public_ip" {
   value       = [for pip in azurerm_public_ip.virtual_gateway_pubip : pip.ip_address]
 }
 
-output "vpn_local_gw_names" {
+output "vpn_local_gateway_names" {
   description = "Azure vnet local GW name."
   value       = { for k, v in azurerm_local_network_gateway.local_network_gateway : k => v.name }
 }
