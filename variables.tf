@@ -46,22 +46,17 @@ variable "subnet_gateway_cidr" {
   type        = string
 }
 
-variable "on_prem_gateway_endpoint" {
-  description = "On-premise Gateway endpoint IP or FQDN to connect Azure with."
-  type        = string
-}
-
-variable "on_prem_gateway_subnets_cidrs" {
-  description = "On-premise subnets list to route from the Hub. (list of strings)"
-  type        = list(string)
-}
-
-variable "vpn_ipsec_shared_key" {
-  description = "The Shared key between both On-premise Gateway and Azure GW for VPN IPsec connection."
-  type        = string
-}
-
 # VPN GW specific options
+
+variable "vpn_gw_public_ip_number" {
+  description = "Number of Public IPs to allocate and associated to the Gateway. By default only 1. Maximum is 3."
+  type        = number
+  default     = 1
+  validation {
+    condition     = var.vpn_gw_public_ip_number >= 1 && var.vpn_gw_public_ip_number <= 3
+    error_message = "Only one, two or three IPs can be associated to the Gateway."
+  }
+}
 
 variable "vpn_gw_public_ip_allocation_method" {
   description = "Defines the allocation method for this IP address. Possible values are `Static` or `Dynamic`."
@@ -93,6 +88,12 @@ variable "vpn_gw_active_active" {
   type        = bool
 }
 
+variable "vpn_gw_generation" {
+  description = "Configuration of the generation of the virtual network gateway. Valid options are Generation1, Generation2 or None"
+  type        = string
+  default     = "Generation1"
+}
+
 variable "vpn_gw_sku" {
   description = "Configuration of the size and capacity of the virtual network gateway. Valid options are Basic, Standard, HighPerformance, UltraPerformance, ErGw1AZ, ErGw2AZ, ErGw3AZ, VpnGw1, VpnGw2, VpnGw3, VpnGw1AZ, VpnGw2AZ, and VpnGw3AZ and depend on the type and vpn_type arguments. A PolicyBased gateway only supports the Basic sku. Further, the UltraPerformance sku is only supported by an ExpressRoute gateway."
   type        = string
@@ -103,4 +104,29 @@ variable "vpn_gw_enable_bgp" {
   description = "If true, BGP (Border Gateway Protocol) will be enabled for this Virtual Network Gateway. Defaults to false."
   default     = false
   type        = bool
+}
+
+variable "vpn_connections" {
+  description = <<EOD
+VPN Connections configuration, must match this type:
+```
+map(
+  connection_name(string) = object({
+    local_gateway_address        (string)
+    local_gateway_address_spaces (list(string)) # CIDR Format
+
+    name_suffix         (optionnal(string))
+    extra_tags          (optionnal(map(string)))
+    custom_name         (optionnal(string)) # Generated if not set
+    shared_key          (optionnal(string)) # Generated if not set
+    dpd_timeout_seconds (optionnal(number))
+    ipsec_policy        (optionnal(object))
+  })
+)
+```
+EOD
+  type        = any
+  default = {
+    azurehub_to_onprem = {}
+  }
 }

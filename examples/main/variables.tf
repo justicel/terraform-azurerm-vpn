@@ -17,18 +17,3 @@ variable "stack" {
   description = "Project stack name"
   type        = string
 }
-
-variable "on_prem_gateway_subnets" {
-  description = "Subnets CIDRs on premises"
-  type        = list(string)
-}
-
-variable "on_prem_gateway_endpoint" {
-  description = "Gateway IP/FQDN on premises"
-  type        = string
-}
-
-variable "shared_key" {
-  description = "IPSec Shared key"
-  type        = string
-}
