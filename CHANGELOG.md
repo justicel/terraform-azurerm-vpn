@@ -1,4 +1,4 @@
-# Unrelease
+# v5.2.0 - 2022-05-13
 
 Breaking
   * AZ-666: Option to select which generation of VPN to use
