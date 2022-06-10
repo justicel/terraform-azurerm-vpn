@@ -44,6 +44,13 @@ variable "network_resource_group_name" {
 variable "subnet_gateway_cidr" {
   description = "CIDR range for the dedicated Gateway subnet. Must be a range available in the Vnet."
   type        = string
+  default     = null
+}
+
+variable "subnet_id" {
+  description = "Subnet Gateway ID to use if already existing. Must be named `GatewaySubnet`."
+  type        = string
+  default     = null
 }
 
 # VPN GW specific options

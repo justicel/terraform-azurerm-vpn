@@ -1,3 +1,8 @@
+# Unreleased
+
+Added
+  * AZ-771: Allow usage of an existing subnet gateway
+
 # v5.2.0 - 2022-05-13
 
 Breaking

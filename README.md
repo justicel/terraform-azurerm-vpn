@@ -123,7 +123,8 @@ module "vpn_gw" {
 | network\_resource\_group\_name | Vnet and subnet Resource group name. To use only if you need to have a dedicated Resource Group for all VPN GW resources. (set via `resource_group_name` var.) | `string` | `""` | no |
 | resource\_group\_name | Name of the resource group | `string` | n/a | yes |
 | stack | Project stack name | `string` | n/a | yes |
-| subnet\_gateway\_cidr | CIDR range for the dedicated Gateway subnet. Must be a range available in the Vnet. | `string` | n/a | yes |
+| subnet\_gateway\_cidr | CIDR range for the dedicated Gateway subnet. Must be a range available in the Vnet. | `string` | `null` | no |
+| subnet\_id | Subnet Gateway ID to use if already existing. Must be named `GatewaySubnet`. | `string` | `null` | no |
 | use\_caf\_naming | Use the Azure CAF naming provider to generate default resource name. `custom_name` override this if set. Legacy default name is used if this is set to `false`. | `bool` | `true` | no |
 | virtual\_network\_name | Virtual Network Name where the dedicated Subnet and GW will be created. | `string` | n/a | yes |
 | vpn\_connections | VPN Connections configuration, must match this type:<pre>map(<br>  connection_name(string) = object({<br>    local_gateway_address        (string)<br>    local_gateway_address_spaces (list(string)) # CIDR Format<br><br>    name_suffix         (optionnal(string))<br>    extra_tags          (optionnal(map(string)))<br>    custom_name         (optionnal(string)) # Generated if not set<br>    shared_key          (optionnal(string)) # Generated if not set<br>    dpd_timeout_seconds (optionnal(number))<br>    ipsec_policy        (optionnal(object))<br>  })<br>)</pre> | `any` | <pre>{<br>  "azurehub_to_onprem": {}<br>}</pre> | no |
@@ -144,9 +145,9 @@ module "vpn_gw" {
 | Name | Description |
 |------|-------------|
 | vpn\_connection\_ids | The VPN created connections IDs. |
-| vpn\_gw\_id | Azure VPN GW id. |
+| vpn\_gw\_id | Azure VPN GW ID. |
 | vpn\_gw\_name | Azure VPN GW name. |
-| vpn\_gw\_subnet\_id | Dedicated subnet id for the GW. |
+| vpn\_gw\_subnet\_id | Dedicated subnet ID for the GW. |
 | vpn\_local\_gateway\_names | Azure VNET local Gateway names. |
 | vpn\_local\_gw\_ids | Azure VNET local Gateway IDs. |
 | vpn\_public\_ip | Azure VPN GW public IP. |

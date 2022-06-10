@@ -33,7 +33,7 @@ resource "azurerm_virtual_network_gateway" "public_virtual_network_gateway" {
     content {
       name                 = "${local.vpn_gw_ipconfig_name}-0${ip_configuration.key}"
       public_ip_address_id = azurerm_public_ip.virtual_gateway_pubip[ip_configuration.key].id
-      subnet_id            = module.subnet_gateway.subnet_id
+      subnet_id            = var.subnet_gateway_cidr != null ? module.subnet_gateway["subnet_gw"].subnet_id : var.subnet_id
     }
   }
 

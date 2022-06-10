@@ -1,10 +1,10 @@
 output "vpn_gw_subnet_id" {
-  description = "Dedicated subnet id for the GW."
-  value       = module.subnet_gateway.subnet_id
+  description = "Dedicated subnet ID for the GW."
+  value       = coalesce(var.subnet_id, module.subnet_gateway["subnet_gw"].subnet_id)
 }
 
 output "vpn_gw_id" {
-  description = "Azure VPN GW id."
+  description = "Azure VPN GW ID."
   value       = azurerm_virtual_network_gateway.public_virtual_network_gateway.id
 }
 
