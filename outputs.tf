@@ -1,6 +1,6 @@
 output "vpn_gw_subnet_id" {
   description = "Dedicated subnet ID for the GW."
-  value       = coalesce(var.subnet_id, module.subnet_gateway["subnet_gw"].subnet_id)
+  value       = coalesce(var.subnet_id, try(module.subnet_gateway["subnet_gw"].subnet_id, null))
 }
 
 output "vpn_gw_id" {
