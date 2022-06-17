@@ -1,4 +1,4 @@
-# Unreleased
+# v5.3.0 - 2022-06-17
 
 Added
   * AZ-771: Allow usage of an existing subnet gateway
