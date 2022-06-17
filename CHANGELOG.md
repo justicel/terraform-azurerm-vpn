@@ -2,6 +2,7 @@
 
 Added
   * AZ-771: Allow usage of an existing subnet gateway
+  * AZ-774: Add second IP by default for active-active VPN to match requirements
 
 # v5.2.0 - 2022-05-13
 

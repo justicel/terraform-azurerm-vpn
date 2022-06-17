@@ -154,6 +154,10 @@ module "vpn_gw" {
 | vpn\_public\_ip\_name | Azure VPN GW public IP resource name. |
 | vpn\_shared\_keys | Shared Keys used for VPN connections. |
 <!-- END_TF_DOCS -->
+## Specifications
+
+* If `vpn_gw_active_active` variable is `true`, at least two public IPs will be provisionned unless more IPs are set via the `vpn_gw_public_ip_number` variable.
+
 ## Related documentation
 
 Microsoft VPN Gateway documentation [docs.microsoft.com/fr-fr/azure/vpn-gateway/vpn-gateway-about-vpngateways](https://docs.microsoft.com/fr-fr/azure/vpn-gateway/vpn-gateway-about-vpngateways)

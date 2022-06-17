@@ -1,5 +1,5 @@
 resource "azurerm_public_ip" "virtual_gateway_pubip" {
-  for_each = toset([for x in range(1, var.vpn_gw_public_ip_number + 1) : tostring(x)])
+  for_each = toset([for x in range(1, local.vpn_gw_public_ip_number + 1) : tostring(x)])
   name     = "${local.gw_pub_ip_name}-0${each.key}"
 
   location            = var.location
@@ -28,7 +28,7 @@ resource "azurerm_virtual_network_gateway" "public_virtual_network_gateway" {
   sku           = var.vpn_gw_sku
 
   dynamic "ip_configuration" {
-    for_each = toset([for x in range(1, var.vpn_gw_public_ip_number + 1) : tostring(x)])
+    for_each = toset([for x in range(1, local.vpn_gw_public_ip_number + 1) : tostring(x)])
 
     content {
       name                 = "${local.vpn_gw_ipconfig_name}-0${ip_configuration.key}"
