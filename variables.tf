@@ -77,6 +77,12 @@ variable "vpn_gw_public_ip_sku" {
   default     = "Basic"
 }
 
+variable "vpn_gw_public_ip_zones" {
+  description = "Public ip Zones to configure."
+  type        = list(string)
+  default     = null
+}
+
 variable "vpn_gw_type" {
   description = "The type of the Virtual Network Gateway. Valid options are `Vpn` or `ExpressRoute`. Changing the type forces a new resource to be created"
   type        = string

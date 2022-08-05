@@ -7,6 +7,7 @@ resource "azurerm_public_ip" "virtual_gateway_pubip" {
 
   allocation_method = var.vpn_gw_public_ip_allocation_method
   sku               = var.vpn_gw_public_ip_sku
+  zones             = var.vpn_gw_public_ip_zones
 
   tags = merge(local.default_tags, var.extra_tags)
 }

@@ -7,6 +7,7 @@ Breaking
 
 Added
   * AZ-884: Add NAT rules link options
+  * AZ-821: Add Zone support for public IPs
 
 # v6.0.0 - 2022-10-21
 
