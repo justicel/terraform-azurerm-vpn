@@ -85,14 +85,14 @@ module "vpn_gw" {
 | Name | Version |
 |------|---------|
 | azurecaf | ~> 1.1 |
-| azurerm | >= 2.38.0 |
+| azurerm | ~> 3.18 |
 | random | ~> 3.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| subnet\_gateway | claranet/subnet/azurerm | 4.2.0 |
+| subnet\_gateway | claranet/subnet/azurerm | 6.0.0 |
 
 ## Resources
 
