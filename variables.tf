@@ -172,8 +172,8 @@ map(
 )
 ```
 EOD
-  type = list(any)
-  default = []
+  type = map(any)
+  default = {}
 }
 
 variable "additional_routes_to_advertise" {
