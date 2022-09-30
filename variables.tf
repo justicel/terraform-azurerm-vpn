@@ -158,3 +158,26 @@ variable "vpn_connections" {
   }))
   default = []
 }
+
+
+variable "vpn_aad_client_configuration" {
+  description = <<EOD
+VPN client configuration using Azure AD authorization, must match this type:
+```
+map(
+  aad_audience          string                # The client id of the Azure VPN application
+  aad_issuer            string                # The STS url for your tenant
+  aad_tenant            string                # AzureAD Tenant URL
+  address_space         list(string)          # The address space out of which IP addresses for vpn clients will be taken
+)
+```
+EOD
+  type = list(any)
+  default = []
+}
+
+variable "additional_routes_to_advertise" {
+  description = "Additional routes to advertise"
+  default = []
+  type = list(string)
+}
