@@ -170,14 +170,20 @@ map(
   aad_tenant            string                # AzureAD Tenant URL
   address_space         list(string)          # The address space out of which IP addresses for vpn clients will be taken
 )
+Additional information can be found at (https://learn.microsoft.com/en-us/azure/vpn-gateway/openvpn-azure-ad-tenant#enable-authentication)
 ```
 EOD
-  type        = map(any)
-  default     = {}
+  type = object({
+    aad_audience  = string                 # The client id of the Azure VPN application
+    aad_issuer    = string                 # The STS url for your tenant
+    aad_tenant    = string                 # AzureAD Tenant URL
+    address_space = optional(list(string)) # The address space out of which IP addresses for vpn clients will be taken
+  })
+  default = null
 }
 
 variable "additional_routes_to_advertise" {
   description = "Additional routes to advertise"
-  default     = []
+  default     = null
   type        = list(string)
 }
