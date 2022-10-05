@@ -172,12 +172,12 @@ map(
 )
 ```
 EOD
-  type = map(any)
-  default = {}
+  type        = map(any)
+  default     = {}
 }
 
 variable "additional_routes_to_advertise" {
   description = "Additional routes to advertise"
-  default = []
-  type = list(string)
+  default     = []
+  type        = list(string)
 }

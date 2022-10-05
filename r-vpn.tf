@@ -42,7 +42,7 @@ resource "azurerm_virtual_network_gateway" "public_virtual_network_gateway" {
     for_each = var.additional_routes_to_advertise
 
     content {
-        address_prefixes = var.additional_routes_to_advertise
+      address_prefixes = var.additional_routes_to_advertise
     }
   }
 
