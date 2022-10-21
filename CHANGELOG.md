@@ -1,4 +1,4 @@
-# Unreleased
+# v6.0.0 - 2022-10-21
 
 Changed
   * AZ-844: Bump `subnet` module to latest version
