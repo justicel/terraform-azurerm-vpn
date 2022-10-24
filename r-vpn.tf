@@ -86,6 +86,9 @@ resource "azurerm_virtual_network_gateway_connection" "virtual_network_gateway_c
       sa_lifetime = each.value.ipsec_policy.sa_lifetime
     }
   }
+
+  egress_nat_rule_ids  = each.value.egress_nat_rule_ids
+  ingress_nat_rule_ids = each.value.ingress_nat_rule_ids
 }
 
 resource "random_password" "vpn_ipsec_shared_key" {

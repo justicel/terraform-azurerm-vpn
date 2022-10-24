@@ -5,6 +5,9 @@ Breaking
   * AZ-886: Rework module code, minimum AzureRM version to `v3.22`
   * AZ-886: Default VPN is now `Generation2` with `VpnGw2AZ` multi AZ SKU
 
+Added
+  * AZ-884: Add nat rules link options
+
 # v6.0.0 - 2022-10-21
 
 Changed
