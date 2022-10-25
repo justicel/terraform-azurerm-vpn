@@ -71,13 +71,18 @@ module "vpn_gw" {
   virtual_network_name = module.azure_network_vnet.virtual_network_name
   subnet_gateway_cidr  = "10.10.1.0/25"
 
-  vpn_connections = {
-    azure_to_claranet = {
+  vpn_connections = [
+    {
+      name                         = "azure_to_claranet"
       name_suffix                  = "claranet"
       extra_tags                   = { to = "claranet" }
       local_gateway_address        = "89.185.1.1"
       local_gateway_address_spaces = ["89.185.1.1/32"]
     }
+  ]
+
+  extra_tags = {
+    foo = "bar"
   }
 }
 ```
