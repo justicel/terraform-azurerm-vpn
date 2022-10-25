@@ -18,7 +18,7 @@ variable "use_caf_naming" {
 }
 
 # Custom naming override
-variable "vpn_gateway_custom_name" {
+variable "custom_name" {
   description = "Custom VPN Gateway name, generated if not set"
   type        = string
   default     = ""

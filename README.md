@@ -122,6 +122,7 @@ module "vpn_gw" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | client\_name | Client name/account used in naming. | `string` | n/a | yes |
+| custom\_name | Custom VPN Gateway name, generated if not set | `string` | `""` | no |
 | default\_tags\_enabled | Option to enable or disable default tags | `bool` | `true` | no |
 | environment | Project environment. | `string` | n/a | yes |
 | extra\_tags | Additional tags to associate with your VPN Gateway | `map(string)` | `{}` | no |
@@ -137,7 +138,6 @@ module "vpn_gw" {
 | use\_caf\_naming | Use the Azure CAF naming provider to generate default resource name. `custom_name` override this if set. Legacy default name is used if this is set to `false`. | `bool` | `true` | no |
 | virtual\_network\_name | Virtual Network Name where the dedicated VPN Subnet and GW will be created. | `string` | n/a | yes |
 | vpn\_connections | List of VPN Connection configurations. | <pre>list(object({<br>    name       = string<br>    extra_tags = optional(map(string))<br><br>    name_suffix          = optional(string)<br>    local_gw_custom_name = optional(string) # Generated if not set<br>    vpn_gw_custom_name   = optional(string) # Generated if not set<br><br>    local_gateway_address        = optional(string)<br>    local_gateway_fqdn           = optional(string)<br>    local_gateway_address_spaces = optional(list(string), []) # CIDR Format<br><br>    shared_key          = optional(string) # Generated if not set<br>    dpd_timeout_seconds = optional(number)<br><br>    egress_nat_rule_ids  = optional(list(string))<br>    ingress_nat_rule_ids = optional(list(string))<br><br>    ipsec_policy = optional(object({<br>      dh_group         = string<br>      ike_encryption   = string<br>      ike_integrity    = string<br>      ipsec_encryption = string<br>      ipsec_integrity  = string<br>      pfs_group        = string<br><br>      sa_datasize = optional(number)<br>      sa_lifetime = optional(number)<br>    }))<br>  }))</pre> | `[]` | no |
-| vpn\_gateway\_custom\_name | Custom VPN Gateway name, generated if not set | `string` | `""` | no |
 | vpn\_gw\_active\_active | If true, an active-active Virtual Network Gateway will be created. An active-active gateway requires a `HighPerformance` or an `UltraPerformance` SKU. If false, an active-standby gateway will be created. | `bool` | `false` | no |
 | vpn\_gw\_enable\_bgp | If true, BGP (Border Gateway Protocol) will be enabled for this Virtual Network Gateway. Defaults to false. | `bool` | `false` | no |
 | vpn\_gw\_generation | Configuration of the generation of the virtual network gateway. Valid options are `Generation1`, `Generation2` or `None` | `string` | `"Generation2"` | no |
@@ -146,7 +146,7 @@ module "vpn_gw" {
 | vpn\_gw\_public\_ip\_custom\_name | VPN GW Public IP resource custom name | `string` | `""` | no |
 | vpn\_gw\_public\_ip\_number | Number of Public IPs to allocate and associated to the Gateway. By default only 1. Maximum is 3. | `number` | `1` | no |
 | vpn\_gw\_public\_ip\_sku | The SKU of the Public IP. Accepted values are `Basic` and `Standard`. | `string` | `"Basic"` | no |
-| vpn\_gw\_public\_ip\_zones | Public ip Zones to configure. | `list(string)` | `null` | no |
+| vpn\_gw\_public\_ip\_zones | Public IP zones to configure. | `list(number)` | <pre>[<br>  1,<br>  2,<br>  3<br>]</pre> | no |
 | vpn\_gw\_routing\_type | The routing type of the Virtual Network Gateway. Valid options are `RouteBased` or `PolicyBased`. Defaults to RouteBased. | `string` | `"RouteBased"` | no |
 | vpn\_gw\_sku | Configuration of the size and capacity of the virtual network gateway.<br>Valid options are `Basic`, `Standard`, `HighPerformance`, `UltraPerformance`, `ErGw[1-3]AZ`, `VpnGw[1-5]`, `VpnGw[1-5]AZ`, and depend on the type and vpn\_type arguments.<br>A PolicyBased gateway only supports the Basic SKU. Further, the UltraPerformance sku is only supported by an ExpressRoute gateway.<br>SKU details and list is available at https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways. | `string` | `"VpnGw2AZ"` | no |
 | vpn\_gw\_type | The type of the Virtual Network Gateway. Valid options are `Vpn` or `ExpressRoute`. Changing the type forces a new resource to be created | `string` | `"Vpn"` | no |
