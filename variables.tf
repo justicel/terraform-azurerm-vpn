@@ -78,9 +78,9 @@ variable "vpn_gw_public_ip_sku" {
 }
 
 variable "vpn_gw_public_ip_zones" {
-  description = "Public ip Zones to configure."
-  type        = list(string)
-  default     = null
+  description = "Public IP zones to configure."
+  type        = list(number)
+  default     = [1, 2, 3]
 }
 
 variable "vpn_gw_type" {
