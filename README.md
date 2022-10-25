@@ -75,8 +75,8 @@ module "vpn_gw" {
     {
       name                         = "azure_to_claranet"
       name_suffix                  = "claranet"
-      vpn_connection_custom_name   = "azure_to_claranet_vpn_connection"
-      local_gateway_custom_name    = "azure_to_claranet_local_gateway"
+      vpn_gw_custom_name           = "azure_to_claranet_vpn_connection"
+      local_gw_custom_name         = "azure_to_claranet_local_gateway"
       extra_tags                   = { to = "claranet" }
       local_gateway_address        = "89.185.1.1"
       local_gateway_address_spaces = ["89.185.1.1/32"]
