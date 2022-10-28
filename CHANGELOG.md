@@ -6,7 +6,7 @@ Breaking
   * AZ-886: Default VPN is now `Generation2` with `VpnGw2AZ` multi AZ SKU
 
 Added
-  * AZ-884: Add nat rules link options
+  * AZ-884: Add NAT rules link options
 
 # v6.0.0 - 2022-10-21
 
