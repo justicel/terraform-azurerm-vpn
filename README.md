@@ -75,6 +75,8 @@ module "vpn_gw" {
     {
       name                         = "azure_to_claranet"
       name_suffix                  = "claranet"
+      vpn_gw_custom_name           = "azure_to_claranet_vpn_connection"
+      local_gw_custom_name         = "azure_to_claranet_local_gateway"
       extra_tags                   = { to = "claranet" }
       local_gateway_address        = "89.185.1.1"
       local_gateway_address_spaces = ["89.185.1.1/32"]
@@ -144,6 +146,7 @@ module "vpn_gw" {
 | vpn\_gw\_public\_ip\_custom\_name | VPN GW Public IP resource custom name | `string` | `""` | no |
 | vpn\_gw\_public\_ip\_number | Number of Public IPs to allocate and associated to the Gateway. By default only 1. Maximum is 3. | `number` | `1` | no |
 | vpn\_gw\_public\_ip\_sku | The SKU of the Public IP. Accepted values are `Basic` and `Standard`. | `string` | `"Basic"` | no |
+| vpn\_gw\_public\_ip\_zones | Public IP zones to configure. | `list(number)` | <pre>[<br>  1,<br>  2,<br>  3<br>]</pre> | no |
 | vpn\_gw\_routing\_type | The routing type of the Virtual Network Gateway. Valid options are `RouteBased` or `PolicyBased`. Defaults to RouteBased. | `string` | `"RouteBased"` | no |
 | vpn\_gw\_sku | Configuration of the size and capacity of the virtual network gateway.<br>Valid options are `Basic`, `Standard`, `HighPerformance`, `UltraPerformance`, `ErGw[1-3]AZ`, `VpnGw[1-5]`, `VpnGw[1-5]AZ`, and depend on the type and vpn\_type arguments.<br>A PolicyBased gateway only supports the Basic SKU. Further, the UltraPerformance sku is only supported by an ExpressRoute gateway.<br>SKU details and list is available at https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways. | `string` | `"VpnGw2AZ"` | no |
 | vpn\_gw\_type | The type of the Virtual Network Gateway. Valid options are `Vpn` or `ExpressRoute`. Changing the type forces a new resource to be created | `string` | `"Vpn"` | no |
