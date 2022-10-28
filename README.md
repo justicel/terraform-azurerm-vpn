@@ -121,7 +121,7 @@ module "vpn_gw" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| additional\_routes\_to\_advertise | Additional routes to advertise | `list(string)` | `null` | no |
+| additional\_routes\_to\_advertise | Additional routes to advertise. | `list(string)` | `null` | no |
 | client\_name | Client name/account used in naming. | `string` | n/a | yes |
 | custom\_name | Custom VPN Gateway name, generated if not set | `string` | `""` | no |
 | default\_tags\_enabled | Option to enable or disable default tags | `bool` | `true` | no |
