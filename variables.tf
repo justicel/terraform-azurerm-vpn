@@ -159,13 +159,12 @@ variable "vpn_connections" {
   default = []
 }
 
-
 variable "vpn_aad_client_configuration" {
   description = "VPN client configuration using Azure AD authorization."
   type = object({
     aad_audience  = string                 # The client id of the Azure VPN application
     aad_issuer    = string                 # The STS url for your tenant
-    aad_tenant    = string                 # AzureAD Tenant URL
+    aad_tenant    = optional(string)       # AzureAD Tenant URL
     address_space = optional(list(string)) # The address space out of which IP addresses for vpn clients will be taken
 
     vpn_auth_types       = optional(list(string), ["AAD"])
@@ -175,7 +174,7 @@ variable "vpn_aad_client_configuration" {
 }
 
 variable "additional_routes_to_advertise" {
-  description = "Additional routes to advertise"
-  default     = null
+  description = "Additional routes to advertise."
   type        = list(string)
+  default     = null
 }

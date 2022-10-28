@@ -39,7 +39,7 @@ resource "azurerm_virtual_network_gateway" "public_virtual_network_gateway" {
   }
 
   dynamic "custom_route" {
-    for_each = var.additional_routes_to_advertise
+    for_each = var.additional_routes_to_advertise != null ? ["enabled"] : []
 
     content {
       address_prefixes = var.additional_routes_to_advertise
