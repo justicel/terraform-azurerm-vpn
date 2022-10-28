@@ -38,6 +38,27 @@ resource "azurerm_virtual_network_gateway" "public_virtual_network_gateway" {
     }
   }
 
+  dynamic "custom_route" {
+    for_each = var.additional_routes_to_advertise != null ? ["enabled"] : []
+
+    content {
+      address_prefixes = var.additional_routes_to_advertise
+    }
+  }
+
+  dynamic "vpn_client_configuration" {
+    for_each = var.vpn_aad_client_configuration != null ? [var.vpn_aad_client_configuration] : []
+    iterator = vpn
+
+    content {
+      aad_audience         = vpn.value.aad_audience
+      aad_issuer           = vpn.value.aad_issuer
+      aad_tenant           = vpn.value.aad_tenant
+      address_space        = [vpn.value.address_space]
+      vpn_auth_types       = vpn.value.vpn_auth_types
+      vpn_client_protocols = vpn.value.vpn_client_protocols
+    }
+  }
   tags = merge(local.default_tags, var.extra_tags)
 }
 
