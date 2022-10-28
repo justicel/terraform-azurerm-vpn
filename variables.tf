@@ -1,48 +1,48 @@
 # Global variables
 variable "resource_group_name" {
-  description = "Name of the resource group"
+  description = "Name of the resource group."
   type        = string
 }
 
 variable "location" {
-  description = "Azure region to use"
+  description = "Azure region to use."
   type        = string
 }
 
 variable "location_short" {
-  description = "Short string for Azure location"
+  description = "Short string for Azure location."
   type        = string
 }
 
 variable "environment" {
-  description = "Project environment"
+  description = "Project environment."
   type        = string
 }
 
 variable "stack" {
-  description = "Project stack name"
+  description = "Project stack name."
   type        = string
 }
 
 variable "client_name" {
-  description = "Client name/account used in naming"
+  description = "Client name/account used in naming."
   type        = string
 }
 
 # VPN GW mandatory parameters
 variable "virtual_network_name" {
-  description = "Virtual Network Name where the dedicated Subnet and GW will be created."
+  description = "Virtual Network Name where the dedicated VPN Subnet and GW will be created."
   type        = string
 }
 
 variable "network_resource_group_name" {
-  description = "Vnet and subnet Resource group name. To use only if you need to have a dedicated Resource Group for all VPN GW resources. (set via `resource_group_name` var.)"
+  description = "VNet and Subnet Resource group name. To use only if you need to have a dedicated Resource Group for all VPN GW resources. (set via `resource_group_name` variable.)"
   type        = string
   default     = ""
 }
 
 variable "subnet_gateway_cidr" {
-  description = "CIDR range for the dedicated Gateway subnet. Must be a range available in the Vnet."
+  description = "CIDR range for the dedicated Gateway subnet. Must be a range available in the VNet."
   type        = string
   default     = null
 }
@@ -90,21 +90,26 @@ variable "vpn_gw_routing_type" {
 }
 
 variable "vpn_gw_active_active" {
-  description = " If true, an active-active Virtual Network Gateway will be created. An active-active gateway requires a HighPerformance or an UltraPerformance sku. If false, an active-standby gateway will be created. Defaults to false."
+  description = "If true, an active-active Virtual Network Gateway will be created. An active-active gateway requires a `HighPerformance` or an `UltraPerformance` SKU. If false, an active-standby gateway will be created."
   default     = false
   type        = bool
 }
 
 variable "vpn_gw_generation" {
-  description = "Configuration of the generation of the virtual network gateway. Valid options are Generation1, Generation2 or None"
+  description = "Configuration of the generation of the virtual network gateway. Valid options are `Generation1`, `Generation2` or `None`"
   type        = string
-  default     = "Generation1"
+  default     = "Generation2"
 }
 
 variable "vpn_gw_sku" {
-  description = "Configuration of the size and capacity of the virtual network gateway. Valid options are Basic, Standard, HighPerformance, UltraPerformance, ErGw1AZ, ErGw2AZ, ErGw3AZ, VpnGw1, VpnGw2, VpnGw3, VpnGw1AZ, VpnGw2AZ, and VpnGw3AZ and depend on the type and vpn_type arguments. A PolicyBased gateway only supports the Basic sku. Further, the UltraPerformance sku is only supported by an ExpressRoute gateway."
+  description = <<EOD
+Configuration of the size and capacity of the virtual network gateway.
+Valid options are `Basic`, `Standard`, `HighPerformance`, `UltraPerformance`, `ErGw[1-3]AZ`, `VpnGw[1-5]`, `VpnGw[1-5]AZ`, and depend on the type and vpn_type arguments.
+A PolicyBased gateway only supports the Basic SKU. Further, the UltraPerformance sku is only supported by an ExpressRoute gateway.
+SKU details and list is available at https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways.
+EOD
   type        = string
-  default     = "VpnGw1"
+  default     = "VpnGw2AZ"
 }
 
 variable "vpn_gw_enable_bgp" {
@@ -114,26 +119,32 @@ variable "vpn_gw_enable_bgp" {
 }
 
 variable "vpn_connections" {
-  description = <<EOD
-VPN Connections configuration, must match this type:
-```
-map(
-  connection_name(string) = object({
-    local_gateway_address        (string)
-    local_gateway_address_spaces (list(string)) # CIDR Format
+  description = "List of VPN Connection configurations."
+  type = list(object({
+    name       = string
+    extra_tags = optional(map(string))
 
-    name_suffix         (optionnal(string))
-    extra_tags          (optionnal(map(string)))
-    custom_name         (optionnal(string)) # Generated if not set
-    shared_key          (optionnal(string)) # Generated if not set
-    dpd_timeout_seconds (optionnal(number))
-    ipsec_policy        (optionnal(object))
-  })
-)
-```
-EOD
-  type        = any
-  default = {
-    azurehub_to_onprem = {}
-  }
+    name_suffix          = optional(string)
+    local_gw_custom_name = optional(string) # Generated if not set
+    vpn_gw_custom_name   = optional(string) # Generated if not set
+
+    local_gateway_address        = optional(string)
+    local_gateway_fqdn           = optional(string)
+    local_gateway_address_spaces = optional(list(string), []) # CIDR Format
+
+    shared_key          = optional(string) # Generated if not set
+    dpd_timeout_seconds = optional(number)
+    ipsec_policy = optional(object({
+      dh_group         = string
+      ike_encryption   = string
+      ike_integrity    = string
+      ipsec_encryption = string
+      ipsec_integrity  = string
+      pfs_group        = string
+
+      sa_datasize = optional(number)
+      sa_lifetime = optional(number)
+    }))
+  }))
+  default = []
 }

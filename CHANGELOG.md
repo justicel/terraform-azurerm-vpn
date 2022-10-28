@@ -1,3 +1,10 @@
+# Unreleased
+
+Breaking
+  * AZ-840: Require Terraform 1.3+
+  * AZ-886: Rework module code, minimum AzureRM version to `v3.22`
+  * AZ-886: Default VPN is now `Generation2` with `VpnGw2AZ` multi AZ SKU
+
 # v6.0.0 - 2022-10-21
 
 Changed

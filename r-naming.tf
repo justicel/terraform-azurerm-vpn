@@ -9,7 +9,7 @@ resource "azurecaf_name" "vnet_gw" {
 }
 
 resource "azurecaf_name" "local_network_gateway" {
-  for_each = var.vpn_connections
+  for_each = { for c in var.vpn_connections : c.name => c }
 
   name          = var.stack
   resource_type = "azurerm_local_network_gateway"
@@ -21,7 +21,7 @@ resource "azurecaf_name" "local_network_gateway" {
 }
 
 resource "azurecaf_name" "vpn_gw_connection" {
-  for_each = var.vpn_connections
+  for_each = { for c in var.vpn_connections : c.name => c }
 
   name          = var.stack
   resource_type = "azurerm_vpn_gateway_connection"

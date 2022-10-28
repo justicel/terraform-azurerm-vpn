@@ -41,24 +41,24 @@ resource "azurerm_virtual_network_gateway" "public_virtual_network_gateway" {
 }
 
 resource "azurerm_local_network_gateway" "local_network_gateway" {
-  for_each = var.vpn_connections
+  for_each = { for c in var.vpn_connections : c.name => c }
 
-  name = lookup(each.value, "custom_name", azurecaf_name.local_network_gateway[each.key].result)
+  name = coalesce(each.value.local_gw_custom_name, azurecaf_name.local_network_gateway[each.key].result)
 
   location            = var.location
   resource_group_name = var.resource_group_name
 
-  gateway_address = lookup(each.value, "local_gateway_address", null)
-  gateway_fqdn    = lookup(each.value, "local_gateway_fqdn", null)
-  address_space   = lookup(each.value, "local_gateway_address_spaces", [])
+  gateway_address = each.value.local_gateway_address
+  gateway_fqdn    = each.value.local_gateway_fqdn
+  address_space   = each.value.local_gateway_address_spaces
 
-  tags = merge(local.default_tags, var.extra_tags)
+  tags = merge(local.default_tags, var.extra_tags, each.value.extra_tags)
 }
 
 resource "azurerm_virtual_network_gateway_connection" "virtual_network_gateway_connection" {
-  for_each = var.vpn_connections
+  for_each = { for c in var.vpn_connections : c.name => c }
 
-  name                = lookup(each.value, "custom_name", azurecaf_name.vpn_gw_connection[each.key].result)
+  name                = coalesce(each.value.vpn_gw_custom_name, azurecaf_name.vpn_gw_connection[each.key].result)
   location            = var.location
   resource_group_name = var.resource_group_name
 
@@ -66,14 +66,14 @@ resource "azurerm_virtual_network_gateway_connection" "virtual_network_gateway_c
   virtual_network_gateway_id = azurerm_virtual_network_gateway.public_virtual_network_gateway.id
   local_network_gateway_id   = azurerm_local_network_gateway.local_network_gateway[each.key].id
 
-  shared_key = lookup(each.value, "shared_key", random_password.vpn_ipsec_shared_key[each.key].result)
+  shared_key = coalesce(each.value.shared_key, random_password.vpn_ipsec_shared_key[each.key].result)
 
   tags = merge(local.default_tags, var.extra_tags, each.value.extra_tags)
 
-  dpd_timeout_seconds = lookup(each.value, "dpd_timeout_seconds", null)
+  dpd_timeout_seconds = each.value.dpd_timeout_seconds
 
   dynamic "ipsec_policy" {
-    for_each = length(lookup(each.value, "ipsec_policy", {})) >= 1 ? ["_"] : []
+    for_each = each.value.ipsec_policy != null ? ["enabled"] : []
     content {
       dh_group         = each.value.ipsec_policy.dh_group
       ike_encryption   = each.value.ipsec_policy.ike_encryption
@@ -81,14 +81,15 @@ resource "azurerm_virtual_network_gateway_connection" "virtual_network_gateway_c
       ipsec_encryption = each.value.ipsec_policy.ipsec_encryption
       ipsec_integrity  = each.value.ipsec_policy.ipsec_integrity
       pfs_group        = each.value.ipsec_policy.pfs_group
-      sa_datasize      = each.value.ipsec_policy.sa_datasize
-      sa_lifetime      = each.value.ipsec_policy.sa_lifetime
+
+      sa_datasize = each.value.ipsec_policy.sa_datasize
+      sa_lifetime = each.value.ipsec_policy.sa_lifetime
     }
   }
 }
 
 resource "random_password" "vpn_ipsec_shared_key" {
-  for_each = var.vpn_connections
+  for_each = { for c in var.vpn_connections : c.name => c }
   length   = 32
   special  = false
 }
