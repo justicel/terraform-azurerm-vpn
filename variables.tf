@@ -90,7 +90,7 @@ variable "vpn_gw_routing_type" {
 }
 
 variable "vpn_gw_active_active" {
-  description = "If true, an active-active Virtual Network Gateway will be created. An active-active gateway requires a HighPerformance or an UltraPerformance sku. If false, an active-standby gateway will be created."
+  description = "If true, an active-active Virtual Network Gateway will be created. An active-active gateway requires a `HighPerformance` or an `UltraPerformance` SKU. If false, an active-standby gateway will be created."
   default     = false
   type        = bool
 }
@@ -105,7 +105,7 @@ variable "vpn_gw_sku" {
   description = <<EOD
 Configuration of the size and capacity of the virtual network gateway.
 Valid options are `Basic`, `Standard`, `HighPerformance`, `UltraPerformance`, `ErGw[1-3]AZ`, `VpnGw[1-5]`, `VpnGw[1-5]AZ`, and depend on the type and vpn_type arguments.
-A PolicyBased gateway only supports the Basic sku. Further, the UltraPerformance sku is only supported by an ExpressRoute gateway.
+A PolicyBased gateway only supports the Basic SKU. Further, the UltraPerformance sku is only supported by an ExpressRoute gateway.
 SKU details and list is available at https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways.
 EOD
   type        = string
