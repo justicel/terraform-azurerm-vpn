@@ -134,6 +134,10 @@ variable "vpn_connections" {
 
     shared_key          = optional(string) # Generated if not set
     dpd_timeout_seconds = optional(number)
+
+    egress_nat_rule_ids  = optional(list(string))
+    ingress_nat_rule_ids = optional(list(string))
+
     ipsec_policy = optional(object({
       dh_group         = string
       ike_encryption   = string
