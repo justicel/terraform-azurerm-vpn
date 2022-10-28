@@ -161,23 +161,15 @@ variable "vpn_connections" {
 
 
 variable "vpn_aad_client_configuration" {
-  description = <<EOD
-VPN client configuration using Azure AD authorization, must match this type:
-```
-map(
-  aad_audience          string                # The client id of the Azure VPN application
-  aad_issuer            string                # The STS url for your tenant
-  aad_tenant            string                # AzureAD Tenant URL
-  address_space         list(string)          # The address space out of which IP addresses for vpn clients will be taken
-)
-Additional information can be found at (https://learn.microsoft.com/en-us/azure/vpn-gateway/openvpn-azure-ad-tenant#enable-authentication)
-```
-EOD
+  description = "VPN client configuration using Azure AD authorization."
   type = object({
     aad_audience  = string                 # The client id of the Azure VPN application
     aad_issuer    = string                 # The STS url for your tenant
     aad_tenant    = string                 # AzureAD Tenant URL
     address_space = optional(list(string)) # The address space out of which IP addresses for vpn clients will be taken
+
+    vpn_auth_types       = optional(list(string), ["AAD"])
+    vpn_client_protocols = optional(list(string), ["OpenVPN"])
   })
   default = null
 }

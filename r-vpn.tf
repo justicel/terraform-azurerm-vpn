@@ -55,8 +55,8 @@ resource "azurerm_virtual_network_gateway" "public_virtual_network_gateway" {
       aad_issuer           = vpn.value.aad_issuer
       aad_tenant           = vpn.value.aad_tenant
       address_space        = [vpn.value.address_space]
-      vpn_auth_types       = ["AAD"]
-      vpn_client_protocols = ["OpenVPN"]
+      vpn_auth_types       = vpn.value.vpn_auth_types
+      vpn_client_protocols = vpn.value.vpn_client_protocols
     }
   }
   tags = merge(local.default_tags, var.extra_tags)
