@@ -174,7 +174,7 @@ variable "vpn_aad_client_configuration" {
 }
 
 variable "additional_routes_to_advertise" {
-  description = "Additional routes to advertise."
+  description = "Additional routes reserved for this virtual network in CIDR notation."
   type        = list(string)
   default     = null
 }
