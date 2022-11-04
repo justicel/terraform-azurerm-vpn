@@ -1,3 +1,8 @@
+# Unreleased
+
+Added
+  * [GH-1](https://github.com/claranet/terraform-azurerm-vpn/pull/1): Add P2S VPN client configuration option with AAD enabled
+
 # v7.0.0 - 2022-10-28
 
 Breaking
