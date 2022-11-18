@@ -66,7 +66,7 @@ resource "azurerm_virtual_network_gateway" "public_virtual_network_gateway" {
 resource "azurerm_local_network_gateway" "local_network_gateway" {
   for_each = { for c in var.vpn_connections : c.name => c }
 
-  name = coalesce(each.value.local_gw_custom_name, azurecaf_name.local_network_gateway[each.key].result)
+  name = coalesce(each.value.local_gw_custom_name, data.azurecaf_name.local_network_gateway[each.key].result)
 
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -81,7 +81,7 @@ resource "azurerm_local_network_gateway" "local_network_gateway" {
 resource "azurerm_virtual_network_gateway_connection" "virtual_network_gateway_connection" {
   for_each = { for c in var.vpn_connections : c.name => c }
 
-  name                = coalesce(each.value.vpn_gw_custom_name, azurecaf_name.vpn_gw_connection[each.key].result)
+  name                = coalesce(each.value.vpn_gw_custom_name, data.azurecaf_name.vpn_gw_connection[each.key].result)
   location            = var.location
   resource_group_name = var.resource_group_name
 
