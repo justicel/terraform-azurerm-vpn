@@ -1,4 +1,4 @@
-resource "azurecaf_name" "vnet_gw" {
+data "azurecaf_name" "vnet_gw" {
   name          = var.stack
   resource_type = "azurerm_virtual_network_gateway"
   prefixes      = compact([var.use_caf_naming ? null : "pub", var.name_prefix == "" ? null : local.name_prefix])
@@ -8,7 +8,7 @@ resource "azurecaf_name" "vnet_gw" {
   separator     = "-"
 }
 
-resource "azurecaf_name" "local_network_gateway" {
+data "azurecaf_name" "local_network_gateway" {
   for_each = { for c in var.vpn_connections : c.name => c }
 
   name          = var.stack
@@ -20,7 +20,7 @@ resource "azurecaf_name" "local_network_gateway" {
   separator     = "-"
 }
 
-resource "azurecaf_name" "vpn_gw_connection" {
+data "azurecaf_name" "vpn_gw_connection" {
   for_each = { for c in var.vpn_connections : c.name => c }
 
   name          = var.stack
@@ -32,7 +32,7 @@ resource "azurecaf_name" "vpn_gw_connection" {
   separator     = "-"
 }
 
-resource "azurecaf_name" "gw_pub_ip" {
+data "azurecaf_name" "gw_pub_ip" {
   name          = var.stack
   resource_type = "azurerm_public_ip"
   prefixes      = var.name_prefix == "" ? null : [local.name_prefix]
